@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/HypnoSheep/HypnoSheep.png?label=ready&title=Ready)](https://waffle.io/HypnoSheep/HypnoSheep)
 # Where was I?
 
 > An application to help keep track of information found on the web
