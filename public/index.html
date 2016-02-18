@@ -13,10 +13,15 @@
   </head>
   <body>
     <div id="content"></div>
-    <!-- <div class="content"></div> -->
-    <!-- <div class="content"></div> -->
    <!--  <script type="text/babel" src="scripts/example.js"></script> -->
     <script type="text/babel">
+      var Comment = React.createClass({
+        render: function() {
+          return (
+            <div> I'm a comment </div>
+          );
+        }
+      })
       var CommentBox = React.createClass({
         render: function() {
           return (
