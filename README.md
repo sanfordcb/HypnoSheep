@@ -1,12 +1,12 @@
-# Project Name
+# Where was I?
 
-> Pithy project description
+> An application to help keep track of information found on the web
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: [Sanford B](https://github.com/sanfordcb)
+  - __Scrum Master__: [Gordon B](https://github.com/Thr1ve)
+  - __Development Team Members__: [Brian M](https://github.com/DoinkDoink), [Kris B](https://github.com/akbur)
 
 ## Table of Contents
 
@@ -20,15 +20,12 @@
 
 ## Usage
 
-> Some usage instructions
+> Visit the web site and create a new project to get started!
 
 ## Requirements
 
-- Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- Node 4.3.x
+- MongoDB 3.0.9
 
 ## Development
 
@@ -37,14 +34,12 @@
 From within the root directory:
 
 ```sh
-sudo npm install -g bower
 npm install
-bower install
 ```
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://github.com/HypnoSheep/HypnoSheep/issues)
 
 
 ## Contributing
