@@ -5,10 +5,7 @@ var morgan = require('morgan');
 var port = process.env.PORT || 8080;
 
 app.use(morgan('dev'));
-
-app.get('/', function(req, res) {
-  res.send('Hello World');
-});
+app.use(express.static('public'));
 
 app.listen(port, function(){
   console.log('Listening on port', port);
