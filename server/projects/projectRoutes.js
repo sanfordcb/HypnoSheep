@@ -5,5 +5,6 @@ var app = express.Router();
 
 app.get('/', projectController.getProjects);
 app.post('/', projectController.addProject);
+app.delete('/:project_id', projectController.deleteProject);
 
 module.exports = app;
