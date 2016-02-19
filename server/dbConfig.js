@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var url = process.env.MONGOLAB_URI || 'mongodb://127.0.0.0.1/hypnosheep'
+var url = process.env.MONGOLAB_URI || 'mongodb://127.0.0.1/hypnosheep'
 
 mongoose.connect(url)
 
