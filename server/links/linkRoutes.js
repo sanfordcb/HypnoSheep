@@ -6,6 +6,7 @@ var app = express.Router();
 app.get('/', linkController.getLinks);
 app.get('/:projectId', linkController.getLinksByProject);
 app.post('/', linkController.addLink);
+app.update('/:linkId', linkController.updateLink);
 
 
 module.exports = app;

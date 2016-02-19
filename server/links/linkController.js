@@ -32,5 +32,9 @@ module.exports = {
   // TODO:
   addLink: function(req, res) {
     res.end('add link');
+  },
+
+  updateLink: function(req, res) {
+    res.end('update link');
   }
 }
