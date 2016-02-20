@@ -32,7 +32,7 @@ module.exports = {
   addLink: function(req, res) {
     var projectId = req.body.projectId;
     if (!projectId) {
-      res.end('ProjectId required');
+      return res.end('ProjectId required');
     }
     Link.create({
       project: projectId,
@@ -62,7 +62,7 @@ module.exports = {
       console.log(err)
       res.end(err)
     })
-  }, 
+  },
 
   deleteLink: function(req, res) {
     Link.remove({
