@@ -62,5 +62,22 @@ module.exports = {
       console.log(err)
       res.end(err)
     })
+  }, 
+
+  deleteLink: function(req, res) {
+    Link.remove({
+      _id: req.params.linkId
+    })
+    .then(function(){
+      res.end('Link deleted.');
+    })
+    .catch(function(err) {
+      res.end(err);
+    })
   }
 }
+
+
+
+
+
