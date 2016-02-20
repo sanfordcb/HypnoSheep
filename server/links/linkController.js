@@ -29,12 +29,38 @@ module.exports = {
     })
   },
 
-  // TODO:
   addLink: function(req, res) {
-    res.end('add link');
+    var projectId = req.body.projectId;
+    if (!projectId) {
+      res.end('ProjectId required');
+    }
+    Link.create({
+      project: projectId,
+      url: req.body.url
+    }).then(function(link) {
+      res.json(link);
+    })
+    .catch(function(err) {
+      console.log(err);
+      res.end(err);
+    })
   },
 
   updateLink: function(req, res) {
-    res.end('update link');
+    var linkId = req.params.linkId;
+    if (!linkId) {
+      return res.end('LinkId required');
+    }
+    Link.findByIdAndUpdate(linkId, req.body)
+    .then(function(link) {
+      if (!link) {
+        return res.end('link not found');
+      }
+      res.json(link)
+    })
+    .catch(function(err) {
+      console.log(err)
+      res.end(err)
+    })
   }
 }
