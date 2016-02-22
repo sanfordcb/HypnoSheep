@@ -4,6 +4,7 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var routes = require('./routes.js');
 var userRoutes = require('./users/userRoutes.js');
+var jwtAuth = require('./jwtAuth.js');
 
 var db = require('./dbConfig.js');
 
@@ -16,7 +17,7 @@ app.use(bodyParser.json());
 
 app.use(morgan('dev'));
 
-app.use('/api', routes);
+app.use('/api', jwtAuth, routes);
 app.use('/auth', userRoutes);
 
 app.use(express.static('public'));
