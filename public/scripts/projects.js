@@ -1,26 +1,111 @@
-window.Project = React.createClass({
-  rawMarkup: function() {
-    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
-    return { __html: rawMarkup };
-  },
-  openProject: function () {
+var Router = ReactRouter.Router;
+var Link = ReactRouter.Link;
 
+// Container for /projects view and functionality
+window.ProjectBox = React.createClass({
+  loadProjectsFromServer: function() {
+    $.ajax({
+      url: 'api/projects',
+      dataType: 'text',
+      cache: false,
+      type: 'GET', 
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error('api/projects', status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  // When user adds a new project, the state is updated to add the new project to the list, and it's 
+  // added to the database via Post request.
+  handleProjectSubmit: function(project) {
+    var projects = this.state.data;
+    project.id = Date.now();
+    var newProjects = projects.concat([project]);
+    this.setState({data: newProjects});
+    $.ajax({
+      url: 'api/projects',
+      contentType: 'application/json',
+      type: 'POST',
+      data: project,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        this.setState({data: projects});
+        console.error('api/projects', status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  getInitialState: function() {
+    // sets this.state.data to blank
+    return {data: [{title: 'someProject1', id: 13123123}, {title: 'someProject2', id: 131232123}, {title: 'someProject3', id: 13123153}, {title: 'someProject4', id: 131231253}]};
+  },
+
+  componentDidMount: function() {
+    //initiates get request to set this.state.data to whatever is stored in the database
+    
+    //this.loadProjectsFromServer();
+    //setInterval(this.loadProjectsFromServer, this.props.pollInterval);
+  },
+
+  render: function() {
+    //by having onCommentSubmit={this.handleProjectSubmit} in the ProjectForm tag, we are able to pass
+    //ProjectBox's handleProjectSubmit method to ProjectForm on the this.props object. ProjectBox
+    //i.e. this.props.handleProjectSubmit
+    return (
+      <div className="projectBox">
+        <h1>Projects</h1>
+        <ProjectForm onProjectSubmit={this.handleProjectSubmit} />
+        <ProjectList data={this.state.data} />
+      </div>
+    );
+  }
+});
+
+window.ProjectForm = React.createClass({
+  getInitialState: function() {
+    return {title: ''};
+  },
+  handleProjectChange: function(e) {
+    this.setState({title: e.target.value});
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var project = this.state.title.trim();
+    if (!project) {
+      return;
+    }
+    this.props.onProjectSubmit({title: project});
+    this.setState({title: ''});
   },
   render: function() {
     return (
-      <div className="project">
-        <span dangerouslySetInnerHTML={this.rawMarkup()} onClick={this.props.openProject} />
-      </div>
+      <form className="commentForm" onSubmit={this.handleSubmit}>
+        <input
+          type="project"
+          placeholder="Say something..."
+          value={this.state.title}
+          onChange={this.handleProjectChange}
+        />
+        <input type="submit" value="Post" />
+      </form>
     );
   }
 });
 
 window.ProjectList = React.createClass({
   render: function() {
+
+    // render returns an array of Project components by mapping the project objects
+    // stored in this.props.data
     var projectNodes = this.props.data.map(function(project) {
       return (
-        <Project key={project.id}>
-          {project.project}
+        <Project project={project} key={project.id}>
+          {project.title}
         </Project>
       );
     });
@@ -32,85 +117,15 @@ window.ProjectList = React.createClass({
   }
 });
 
-window.ProjectForm = React.createClass({
-  getInitialState: function() {
-    return {project: ''};
-  },
-  handleProjectChange: function(e) {
-    this.setState({project: e.target.value});
-  },
-  handleSubmit: function(e) {
-    e.preventDefault();
-    var project = this.state.project.trim();
-    if (!project) {
-      return;
-    }
-    this.props.onCommentSubmit({project: project});
-    this.setState({project: ''});
-  },
+window.Project = React.createClass({
   render: function() {
+    //returns a div that when clicked on will navigate to the links page for that specific project.
+    //this.props.project is passed in from ProjectList by saying project={project} where {project}
+    //refers to an individual project passed as a parameter to the map function
+    //i.e. {project} = {title: "My Project", id: 1234}
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
-        <input
-          type="project"
-          placeholder="Say something..."
-          value={this.state.project}
-          onChange={this.handleProjectChange}
-        />
-        <input type="submit" value="Post" />
-      </form>
-    );
-  }
-});
-
-
-window.ProjectBox = React.createClass({
-  loadCommentsFromServer: function() {
-    $.ajax({
-      url: this.props.url,
-      dataType: 'text',
-      cache: false,
-      type: 'GET', 
-      success: function(data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
-  handleCommentSubmit: function(comment) {
-    var comments = this.state.data;
-    comment.id = Date.now();
-    var newComments = comments.concat([comment]);
-    this.setState({data: newComments});
-    $.ajax({
-      url: this.props.url,
-      contentType: 'application/json',
-      type: 'POST',
-      data: comment,
-      success: function(data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        this.setState({data: comments});
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
-  getInitialState: function() {
-    return {data: [{project: 'someProject1', id: 13123123}, {project: 'someProject2', id: 131232123}, {project: 'someProject3', id: 13123153}, {project: 'someProject4', id: 131231253}]};
-  },
-  componentDidMount: function() {
-    //this.loadCommentsFromServer();
-    //setInterval(this.loadCommentsFromServer, this.props.pollInterval);
-  },
-  render: function() {
-    return (
-      <div className="commentBox">
-        <h1>Projects</h1>
-        <ProjectForm onCommentSubmit={this.handleCommentSubmit} />
-        <ProjectList data={this.state.data} />
+      <div className="project">
+        <Link to={`/links/${this.props.project.id}`}>{this.props.project.title}</Link>
       </div>
     );
   }
