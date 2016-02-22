@@ -20,7 +20,7 @@ module.exports = {
           return res.status(401).end('passwords dont match');
         }
         // if the password is correct, create a jwt Token for the user
-        var expires = moment().add('days', 2).valueOf();
+        var expires = moment().add(2, 'days').valueOf();
         var token = jwt.encode({
           iss: user._id,
           exp: expires
