@@ -1,21 +1,66 @@
-var Project = React.createClass({
+window.Link = React.createClass({
   rawMarkup: function() {
     var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
     return { __html: rawMarkup };
   },
-  openProject: function () {
-
-  },
   render: function() {
     return (
       <div className="project">
-        <span dangerouslySetInnerHTML={this.rawMarkup()} onClick={this.props.openProject} />
+        <span dangerouslySetInnerHTML={this.rawMarkup()} />
       </div>
     );
   }
 });
 
-var ProjectBox = React.createClass({
+window.LinkList = React.createClass({
+  render: function() {
+    var linkNodes = this.props.data.map(function(project) {
+      return (
+        <Link key={project.id}>
+          {project.project}
+        </Link>
+      );
+    });
+    return (
+      <div className="projectList">
+        {projectNodes}
+      </div>
+    );
+  }
+});
+
+window.LinkForm = React.createClass({
+  getInitialState: function() {
+    return {project: ''};
+  },
+  handleProjectChange: function(e) {
+    this.setState({project: e.target.value});
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var project = this.state.project.trim();
+    if (!project) {
+      return;
+    }
+    this.props.onCommentSubmit({project: project});
+    this.setState({project: ''});
+  },
+  render: function() {
+    return (
+      <form className="commentForm" onSubmit={this.handleSubmit}>
+        <input
+          type="project"
+          placeholder="Say something..."
+          value={this.state.project}
+          onChange={this.handleProjectChange}
+        />
+        <input type="submit" value="Post" />
+      </form>
+    );
+  }
+});
+
+window.LinkBox = React.createClass({
   loadCommentsFromServer: function() {
     $.ajax({
       url: '/api/projects',
@@ -59,75 +104,10 @@ var ProjectBox = React.createClass({
   render: function() {
     return (
       <div className="commentBox">
-        <h1>Projects</h1>
-        <ProjectForm onCommentSubmit={this.handleCommentSubmit} />
-        <ProjectList data={this.state.data} />
+        <h1>Link</h1>
+        <LinkForm onCommentSubmit={this.handleCommentSubmit} />
+        <LinkList data={this.state.data} />
       </div>
     );
   }
 });
-
-var ProjectList = React.createClass({
-  render: function() {
-    var projectNodes = this.props.data.map(function(project) {
-      return (
-        <Project key={project.id}>
-          {project.project}
-        </Project>
-      );
-    });
-    return (
-      <div className="projectList">
-        {projectNodes}
-      </div>
-    );
-  }
-});
-
-var ProjectForm = React.createClass({
-  getInitialState: function() {
-    return {project: ''};
-  },
-  handleProjectChange: function(e) {
-    this.setState({project: e.target.value});
-  },
-  handleSubmit: function(e) {
-    e.preventDefault();
-    var project = this.state.project.trim();
-    if (!project) {
-      return;
-    }
-    this.props.onCommentSubmit({project: project});
-    this.setState({project: ''});
-  },
-  render: function() {
-    return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
-        <input
-          type="project"
-          placeholder="Say something..."
-          value={this.state.project}
-          onChange={this.handleProjectChange}
-        />
-        <input type="submit" value="Post" />
-      </form>
-    );
-  }
-});
-
-ReactDOM.render(
-  <ProjectBox url="/api/projects" pollInterval={2000} />,
-  document.getElementById('content')
-
-  <Router>
-    <Route path="/" component={App}>
-      <Route path="/login" component={Login}>
-        <Route path="signup" component={Signup} />
-        <Route path="projects" component={Projects}>
-          <Route path="links" component={Links} />
-        </Route>
-      </Route>
-    </Route>
-  </Router>
-
-);

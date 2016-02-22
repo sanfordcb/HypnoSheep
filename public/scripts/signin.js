@@ -28,4 +28,8 @@ render((
     </Route>
   </Router>)
 
+
+signin sends a token. store token locally. set x-access-token to locally stored token
+window.localStorage.setItem('token', 'the-long-access-token')
+var token = window.localStorage.getItem('token')
  -->
