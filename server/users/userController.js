@@ -1,4 +1,7 @@
 var User = require('./userModel.js');
+var jwt = require('jwt-simple');
+var moment = require('moment');
+var secret = require('../envDefaults.js').jwtSecret;
 
 module.exports = {
   signin: function(req, res) {
@@ -6,15 +9,28 @@ module.exports = {
     var password = req.body.password;
     User.findOne({username: username})
     .then(function(user) {
+      // if the user exists...
       if (!user) {
         return res.end('user not found');
       }
+      // ...check their password...
       return user.comparePassword(password)
       .then(function(isMatch) {
-        if (isMatch) {
-          return res.end('sending the token! Success!')
+        if (!isMatch) {
+          return res.status(401).end('passwords dont match');
         }
-        res.end('passwords dont match');
+        // if the password is correct, create a jwt Token for the user
+        var expires = moment().add('days', 2).valueOf();
+        var token = jwt.encode({
+          iss: user._id,
+          exp: expires
+        }, secret);
+
+        res.json({
+          token: token,
+          expires: expires,
+          user: user.toJSON()
+        });
       })
       .catch(function(err) {
         console.log(err);
