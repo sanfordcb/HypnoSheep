@@ -1,3 +1,4 @@
+var path = require('path');
 var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
@@ -19,6 +20,10 @@ app.use('/api', routes);
 app.use('/auth', userRoutes);
 
 app.use(express.static('public'));
+
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
 
 app.listen(port, function(){
   console.log('Listening on port', port);
