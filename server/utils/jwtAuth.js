@@ -1,5 +1,5 @@
 var jwt = require('jwt-simple');
-var User = require('./users/userModel.js');
+var User = require('../users/userModel.js');
 var secret = require('./envDefaults.js').jwtSecret;
 
 module.exports = function(req, res, next) {

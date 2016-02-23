@@ -1,7 +1,7 @@
 var User = require('./userModel.js');
 var jwt = require('jwt-simple');
 var moment = require('moment');
-var secret = require('../envDefaults.js').jwtSecret;
+var secret = require('../utils/envDefaults.js').jwtSecret;
 
 module.exports = {
   signin: function(req, res) {
