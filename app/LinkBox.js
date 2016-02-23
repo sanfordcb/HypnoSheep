@@ -1,62 +1,93 @@
-var React = require('react');
-var marked = require('marked');
 var $ = require('jquery');
+var marked = require('marked');
+var React = require('react');
+var ReactRouter = require('react-router');
+var Link = ReactRouter.Link;
 
-var Link = React.createClass({
-  rawMarkup: function() {
-    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
-    return { __html: rawMarkup };
+var LinkBox = React.createClass({
+  loadUrl: function(){
+    var url = window.location.href;
+    var id = url.split('/').pop();
+    return id;
+  },
+  loadLinksFromServer: function() {
+    $.ajax({
+      url: '/api/links/' + this.state.projectId,
+      dataType: 'text',
+      cache: false,
+      type: 'GET',
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error('/api/links', status, err.toString());
+      }.bind(this)
+    });
+  },
+  handleLinkSubmit: function(link) {
+    var links = this.state.data;
+    var newLinks = links.concat([link]);
+    this.setState({data: newLinks});
+    $.ajax({
+      url: '/api/links',
+      contentType: 'application/json',
+      type: 'POST',
+      data: link,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        this.setState({data: links});
+        console.error('/api/projects', status, err.toString());
+      }.bind(this)
+    });
+  },
+  getInitialState: function() {
+    return {projectId:0, data: [{url: 'http://www.google.com', _id: 13123123}, {url: 'http://www.bing.com', _id: 131232123}, {url: 'http://www.yahoo.com', _id: 131231253}]};
+  },
+  componentDidMount: function() {
+    var projectId = this.loadUrl();
+    this.setState({projectId: projectId});
+
+    //this.loadLinksFromServer();
+    //setInterval(this.loadLinksFromServer, this.props.pollInterval);
   },
   render: function() {
     return (
-      <div className="project">
-        <span dangerouslySetInnerHTML={this.rawMarkup()} />
+      <div className="linkBox">
+        <h1>Link</h1>
+        <LinkForm onLinkSubmit={this.handleLinkSubmit} />
+        <LinkList data={this.state.data} />
       </div>
     );
   }
 });
 
-var LinkList = React.createClass({
-  render: function() {
-    var linkNodes = this.props.data.map(function(project) {
-      return (
-        <Link key={project.id}>
-          {project.project}
-        </Link>
-      );
-    });
-    return (
-      <div className="projectList">
-        {linkNodes}
-      </div>
-    );
-  }
-});
 
 var LinkForm = React.createClass({
   getInitialState: function() {
-    return {project: ''};
+    return {url: ''};
   },
-  handleProjectChange: function(e) {
-    this.setState({project: e.target.value});
+  handleLinkChange: function(e) {
+    this.setState({url: e.target.value});
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var project = this.state.project.trim();
-    if (!project) {
+    var link = this.state.link.trim();
+    if (!link) {
       return;
     }
-    this.props.onCommentSubmit({project: project});
-    this.setState({project: ''});
+    this.props.onLinkSubmit({link: link});
+    this.setState({link: ''});
   },
   render: function() {
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
+      <form className="linkForm" onSubmit={this.handleSubmit}>
         <input
-          type="project"
+          type="link"
           placeholder="Say something..."
-          value={this.state.project}
-          onChange={this.handleProjectChange}
+          value={this.state.link}
+          onChange={this.handleLinkChange}
         />
         <input type="submit" value="Post" />
       </form>
@@ -64,53 +95,29 @@ var LinkForm = React.createClass({
   }
 });
 
-var LinkBox = React.createClass({
-  loadCommentsFromServer: function() {
-    // $.ajax({
-    //   url: '/api/projects',
-    //   dataType: 'text',
-    //   cache: false,
-    //   type: 'GET',
-    //   success: function(data) {
-    //     this.setState({data: data});
-    //   }.bind(this),
-    //   error: function(xhr, status, err) {
-    //     console.error('/api/projects', status, err.toString());
-    //   }.bind(this)
-    // });
-  },
-  handleCommentSubmit: function(comment) {
-    var comments = this.state.data;
-    comment.id = Date.now();
-    var newComments = comments.concat([comment]);
-    this.setState({data: newComments});
-    $.ajax({
-      url: '/api/projects',
-      contentType: 'application/json',
-      type: 'POST',
-      data: comment,
-      success: function(data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        this.setState({data: comments});
-        console.error('/api/projects', status, err.toString());
-      }.bind(this)
-    });
-  },
-  getInitialState: function() {
-    return {data: [{project: 'someProject1', id: 13123123}, {project: 'someProject2', id: 131232123}, {project: 'someProject3', id: 13123153}, {project: 'someProject4', id: 131231253}]};
-  },
-  componentDidMount: function() {
-    this.loadCommentsFromServer();
-    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
-  },
+var LinkList = React.createClass({
   render: function() {
+    var linkNodes = this.props.data.map(function(link) {
+      return (
+        <LinkItem link={link} key={link._id}>
+          {link.url}
+        </LinkItem>
+      );
+    });
     return (
-      <div className="commentBox">
-        <h1>Link</h1>
-        <LinkForm onCommentSubmit={this.handleCommentSubmit} />
-        <LinkList data={this.state.data} />
+      <div className="linkList">
+        {linkNodes}
+      </div>
+    );
+  }
+});
+
+var LinkItem = React.createClass({
+  render: function() {
+    console.log('Link props, ', this.props);
+    return (
+      <div className="link">
+        <Link to={`${this.props.link.url}`}>{this.props.link.url}</Link>
       </div>
     );
   }
