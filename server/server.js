@@ -17,7 +17,8 @@ app.use(bodyParser.json());
 
 app.use(morgan('dev'));
 
-app.use('/api', jwtAuth, routes);
+app.use('/api', routes);
+//app.use('/api', jwtAuth, routes);
 app.use('/auth', userRoutes);
 
 app.use(express.static('public'));

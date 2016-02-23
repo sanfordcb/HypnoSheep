@@ -22,7 +22,6 @@ window.ProjectBox = React.createClass({
   // added to the database via Post request.
   handleProjectSubmit: function(project) {
     var projects = this.state.data;
-    project.id = Date.now();
     var newProjects = projects.concat([project]);
     this.setState({data: newProjects});
     $.ajax({
@@ -42,12 +41,13 @@ window.ProjectBox = React.createClass({
 
   getInitialState: function() {
     // sets this.state.data to blank
-    return {data: [{title: 'someProject1', id: 13123123}, {title: 'someProject2', id: 131232123}, {title: 'someProject3', id: 13123153}, {title: 'someProject4', id: 131231253}]};
+    console.log(window);
+    return {projectId: 0, data: [{title: 'someProject1', _id: 13123125}, {title: 'someProject2', _id: 131232123}, {title: 'someProject3', _id: 131231253}]};
   },
 
   componentDidMount: function() {
     //initiates get request to set this.state.data to whatever is stored in the database
-    
+
     //this.loadProjectsFromServer();
     //setInterval(this.loadProjectsFromServer, this.props.pollInterval);
   },
@@ -104,7 +104,7 @@ window.ProjectList = React.createClass({
     // stored in this.props.data
     var projectNodes = this.props.data.map(function(project) {
       return (
-        <Project project={project} key={project.id}>
+        <Project project={project} key={project._id}>
           {project.title}
         </Project>
       );
@@ -125,7 +125,7 @@ window.Project = React.createClass({
     //i.e. {project} = {title: "My Project", id: 1234}
     return (
       <div className="project">
-        <Link to={`/links/${this.props.project.id}`}>{this.props.project.title}</Link>
+        <Link to={`/links/${this.props.project._id}`}>{this.props.project.title}</Link>
       </div>
     );
   }
