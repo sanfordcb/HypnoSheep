@@ -19,9 +19,8 @@ var db = require('./utils/dbConfig.js');
 // Local deps
 var routes = require('./routes.js');
 
-
 var isDeveloping = process.env.NODE_ENV !== 'production';
-var port = isDeveloping ? 3000 : process.env.PORT;
+var port = isDeveloping ? 8080: process.env.PORT;
 
 var app = express();
 
@@ -65,16 +64,6 @@ if (isDeveloping) {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
   });
 }
-
-// app.use(express.static('public'));
-
-// // This redirects any GET requests that aren't for '/' or our above-mentioned
-// // routes to the home-page, letting the router on our SPA front-end handle it.
-// // This way, trying to refresh a specific page of the app won't
-// // end in a "cannot GET '/part/of/app'" error
-// app.get('*', function(req, res) {
-//   res.sendFile(path.join(__dirname, '../public/index.html'));
-// });
 
 app.listen(port, function(){
   console.log('Listening on port', port);
