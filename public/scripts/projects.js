@@ -10,7 +10,7 @@ window.ProjectBox = React.createClass({
       cache: false,
       type: 'GET', 
       success: function(data) {
-        this.setState({data: data});
+        this.setState({data: JSON.parse(data)});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error('api/projects', status, err.toString());
@@ -28,10 +28,10 @@ window.ProjectBox = React.createClass({
       url: 'api/projects',
       contentType: 'application/json',
       type: 'POST',
-      data: project,
-      success: function(data) {
-        this.setState({data: data});
-      }.bind(this),
+      data: JSON.stringify(project),
+      success: function(project) {
+        //project already added
+      },
       error: function(xhr, status, err) {
         this.setState({data: projects});
         console.error('api/projects', status, err.toString());
@@ -41,15 +41,12 @@ window.ProjectBox = React.createClass({
 
   getInitialState: function() {
     // sets this.state.data to blank
-    console.log(window);
-    return {projectId: 0, data: [{title: 'someProject1', _id: 13123125}, {title: 'someProject2', _id: 131232123}, {title: 'someProject3', _id: 131231253}]};
+    return {projectId: 0, data: []};
   },
 
   componentDidMount: function() {
     //initiates get request to set this.state.data to whatever is stored in the database
-
-    //this.loadProjectsFromServer();
-    //setInterval(this.loadProjectsFromServer, this.props.pollInterval);
+    this.loadProjectsFromServer();
   },
 
   render: function() {
@@ -68,19 +65,20 @@ window.ProjectBox = React.createClass({
 
 window.ProjectForm = React.createClass({
   getInitialState: function() {
-    return {title: ''};
+    return {name: ''};
   },
   handleProjectChange: function(e) {
-    this.setState({title: e.target.value});
+    this.setState({name: e.target.value});
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var project = this.state.title.trim();
-    if (!project) {
+    var projectName = this.state.name.trim();
+    if (!projectName) {
       return;
     }
-    this.props.onProjectSubmit({title: project});
-    this.setState({title: ''});
+    console.log('project', projectName);
+    this.props.onProjectSubmit({name: projectName});
+    this.setState({name: ''});
   },
   render: function() {
     return (
@@ -88,7 +86,7 @@ window.ProjectForm = React.createClass({
         <input
           type="project"
           placeholder="Say something..."
-          value={this.state.title}
+          value={this.state.name}
           onChange={this.handleProjectChange}
         />
         <input type="submit" value="Post" />
@@ -99,13 +97,15 @@ window.ProjectForm = React.createClass({
 
 window.ProjectList = React.createClass({
   render: function() {
-
     // render returns an array of Project components by mapping the project objects
     // stored in this.props.data
+    if (this.props.data.length === 0) {
+      return <div>Loading Projects...</div>
+    }
     var projectNodes = this.props.data.map(function(project) {
       return (
         <Project project={project} key={project._id}>
-          {project.title}
+          {project.name}
         </Project>
       );
     });
@@ -122,10 +122,10 @@ window.Project = React.createClass({
     //returns a div that when clicked on will navigate to the links page for that specific project.
     //this.props.project is passed in from ProjectList by saying project={project} where {project}
     //refers to an individual project passed as a parameter to the map function
-    //i.e. {project} = {title: "My Project", id: 1234}
+    //i.e. {project} = {name: "My Project", id: 1234}
     return (
       <div className="project">
-        <Link to={`/links/${this.props.project._id}`}>{this.props.project.title}</Link>
+        <Link to={`/links/${this.props.project._id}`}>{this.props.project.name}</Link>
       </div>
     );
   }
