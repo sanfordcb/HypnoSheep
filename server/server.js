@@ -1,18 +1,29 @@
 // Node-Core deps
 var path = require('path');
+
 // 3rd-Party deps
 var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
+  // Webpack dev deps
+  var webpack = require('webpack');
+  var webpackMiddleware = require('webpack-dev-middleware');
+  var webpackHotMiddleware = require('webpack-hot-middleware');
+  var config = require('../webpack.config.js');
+
 // Project deps
 var userRoutes = require('./users/userRoutes.js');
 var jwtAuth = require('./utils/jwtAuth.js');
 var db = require('./utils/dbConfig.js');
+
 // Local deps
 var routes = require('./routes.js');
 
+
+var isDeveloping = process.env.NODE_ENV !== 'production';
+var port = isDeveloping ? 3000 : process.env.PORT;
+
 var app = express();
-var port = process.env.PORT || 8080;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -22,15 +33,48 @@ app.use('/api', routes);
 //app.use('/api', jwtAuth, routes);
 app.use('/auth', userRoutes);
 
-app.use(express.static('public'));
+if (isDeveloping) {
+  var compiler = webpack(config);
+  var middleware = webpackMiddleware(compiler, {
+    publicPath: config.output.publicPath,
+    contentBase: 'src',
+    stats: {
+      colors: true,
+      hash: false,
+      timings: true,
+      chunks: false,
+      chunkModules: false,
+      modules: false
+    }
+  });
 
-// This redirects any GET requests that aren't for '/' or our above-mentioned
-// routes to the home-page, letting the router on our SPA front-end handle it.
-// This way, trying to refresh a specific page of the app won't
-// end in a "cannot GET '/part/of/app'" error
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
+  app.use(middleware);
+  app.use(webpackHotMiddleware(compiler));
+  app.get('*', function response(req, res) {
+    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '../dist/index.html')));
+    res.end();
+  });
+} else {
+  app.use(express.static(__dirname + '../dist'));
+
+  // This redirects any GET requests that aren't for '/' or our above-mentioned
+  // routes to the home-page, letting the router on our SPA front-end handle it.
+  // This way, trying to refresh a specific page of the app won't
+  // end in a "cannot GET '/part/of/app'" error
+  app.get('*', function response(req, res) {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
+  });
+}
+
+// app.use(express.static('public'));
+
+// // This redirects any GET requests that aren't for '/' or our above-mentioned
+// // routes to the home-page, letting the router on our SPA front-end handle it.
+// // This way, trying to refresh a specific page of the app won't
+// // end in a "cannot GET '/part/of/app'" error
+// app.get('*', function(req, res) {
+//   res.sendFile(path.join(__dirname, '../public/index.html'));
+// });
 
 app.listen(port, function(){
   console.log('Listening on port', port);
