@@ -97,7 +97,7 @@ var LinkList = React.createClass({
   render: function() {
     const { data, getLinks } = this.props;
 
-    var linkNodes = data.map((link) => {
+    const linkNodes = data.map((link) => {
       const deleteLink = () => {
         request
           .delete(`/api/links/${link._id}`)
@@ -109,16 +109,14 @@ var LinkList = React.createClass({
             }
           });
       };
+
       return (
-        <Resource
-          key={link._id}
-          link={link}
-          deleteLink={deleteLink}
-        >
+        <Resource key={link._id} link={link} deleteLink={deleteLink}>
           {link.url}
         </Resource>
       );
     });
+
     return (
       <div className="linkList">
         {linkNodes}
