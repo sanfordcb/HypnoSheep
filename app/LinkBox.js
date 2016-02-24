@@ -1,19 +1,20 @@
-var $ = require('jquery');
-var marked = require('marked');
-var React = require('react');
-var ReactRouter = require('react-router');
-var Link = ReactRouter.Link;
+import $ from 'jquery';
+import marked from 'marked';
+import React from 'react';
+import { Link } from 'react-router';
 import request from 'superagent';
 import Resource from './Resource.js';
 
-var LinkBox = React.createClass({
-  getInitialState: function() {
+
+
+const LinkBox = React.createClass({
+  getInitialState() {
     return {
       data: []
     };
   },
 
-  getLinks: function() {
+  getLinks() {
     $.ajax({
       url: `/api/links/${this.props.params.id}`,
       dataType: 'text',
@@ -28,7 +29,7 @@ var LinkBox = React.createClass({
     });
   },
 
-  handleLinkSubmit: function(link) {
+  handleLinkSubmit(link) {
     link.projectId = this.props.params.id;
     $.ajax({
       url: '/api/links',
@@ -44,11 +45,11 @@ var LinkBox = React.createClass({
     });
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     this.getLinks();
   },
 
-  render: function() {
+  render() {
     return (
       <div className="linkBox">
         <h1>Link</h1>
@@ -62,23 +63,23 @@ var LinkBox = React.createClass({
   }
 });
 
-var LinkForm = React.createClass({
-  getInitialState: function() {
+const LinkForm = React.createClass({
+  getInitialState() {
     return {url: ''};
   },
-  handleLinkChange: function(e) {
+  handleLinkChange(e) {
     this.setState({url: e.target.value});
   },
-  handleSubmit: function(e) {
+  handleSubmit(e) {
     e.preventDefault();
-    var link = this.state.url.trim();
+    const link = this.state.url.trim();
     if (!link) {
       return;
     }
     this.props.onLinkSubmit({url: link});
     this.setState({url: ''});
   },
-  render: function() {
+  render() {
     return (
       <form className="linkForm" onSubmit={this.handleSubmit}>
         <input
@@ -125,4 +126,4 @@ var LinkList = React.createClass({
   }
 });
 
-module.exports = LinkBox;
+export default LinkBox;

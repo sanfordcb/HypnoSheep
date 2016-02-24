@@ -1,8 +1,8 @@
-var React = require('react');
+import React from 'react';
 import Header from './Header';
 
-var App = React.createClass({
-  render: function() {
+const App = React.createClass({
+  render() {
     return(
       <div>
         <Header />
