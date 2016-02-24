@@ -6,6 +6,7 @@ import App from './App';
 import ProjectBox from './ProjectBox';
 import LinkBox from './LinkBox';
 import SignupForm from './SignupForm';
+import SignIn from './SignIn';
 
 const routes = (
   <Router history={browserHistory}>
@@ -13,6 +14,7 @@ const routes = (
       <Route path="projects" component={ProjectBox} />
       <Route path="links/:id" component={LinkBox} />
       <Route path="signup" component={SignupForm} />
+      <Route path="signin" component={SignIn} />
     </Route>
   </Router>
 );
