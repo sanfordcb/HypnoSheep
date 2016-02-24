@@ -1,11 +1,15 @@
 var React = require('react');
+import Header from './Header';
 
 var App = React.createClass({
   render: function() {
     return(
-      <div>{this.props.children}</div>
+      <div>
+        <Header />
+        {this.props.children}
+      </div>
     );
   }
 });
 
-module.exports = App;
+export default App;
