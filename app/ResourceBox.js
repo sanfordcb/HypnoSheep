@@ -29,6 +29,8 @@ const ResourceBox = React.createClass({
     });
   },
 
+  // When user adds a new resource, a POST request is submitted, and 
+  // the state is updated to add the new resource to the list
   handleResourceSubmit(resource) {
     resource.projectId = this.props.params.id;
     $.ajax({
@@ -45,10 +47,15 @@ const ResourceBox = React.createClass({
     });
   },
 
+
   componentDidMount() {
+    // Sends get request when component is first rendered, loading any resources already
+    // stored for the project
     this.getResources();
   },
 
+  // ResourceBox's handleResourceSubmit method is passed to ResourceForm via this.props object
+  // i.e. this.props.handleResourceSubmit
   render() {
     return (
       <div className="resourceBox">
@@ -95,6 +102,9 @@ const ResourceForm = React.createClass({
 });
 
 var ResourceList = React.createClass({
+
+  // render returns an array of Resource components by mapping the resource objects
+  // stored in this.props.data
   render() {
     const { data, getResources } = this.props;
 
