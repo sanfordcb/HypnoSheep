@@ -13,6 +13,21 @@ var LinkBox = React.createClass({
     };
   },
 
+  getLinks: function() {
+    $.ajax({
+      url: `/api/links/${this.props.params.id}`,
+      dataType: 'text',
+      cache: false,
+      type: 'GET',
+      success: (data) => {
+        this.setState({ data: JSON.parse(data) });
+      },
+      error: (xhr, status, err) => {
+        console.error('/api/links', status, err.toString());
+      }
+    });
+  },
+
   handleLinkSubmit: function(link) {
     link.projectId = this.props.params.id;
     $.ajax({
@@ -30,18 +45,7 @@ var LinkBox = React.createClass({
   },
 
   componentDidMount: function() {
-    $.ajax({
-      url: '/api/links/' + this.props.params.id,
-      dataType: 'text',
-      cache: false,
-      type: 'GET',
-      success: (data) => {
-        this.setState({data: this.state.data.concat(JSON.parse(data))});
-      },
-      error: (xhr, status, err) => {
-        console.error('/api/links', status, err.toString());
-      }
-    });
+    this.getLinks();
   },
 
   render: function() {
@@ -49,7 +53,10 @@ var LinkBox = React.createClass({
       <div className="linkBox">
         <h1>Link</h1>
         <LinkForm onLinkSubmit={this.handleLinkSubmit} />
-        <LinkList data={this.state.data} />
+        <LinkList
+          data={this.state.data}
+          getLinks={this.getLinks}
+        />
       </div>
     );
   }
@@ -87,14 +94,19 @@ var LinkForm = React.createClass({
 });
 
 var LinkList = React.createClass({
-
   render: function() {
-    var linkNodes = this.props.data.map((link) => {
+    const { data, getLinks } = this.props;
+
+    var linkNodes = data.map((link) => {
       const deleteLink = () => {
         request
           .delete(`/api/links/${link._id}`)
           .end((err, res) => {
-            console.log(res);
+            if (err || !res.ok) {
+              console.log(err);
+            } else {
+              getLinks();
+            }
           });
       };
       return (
