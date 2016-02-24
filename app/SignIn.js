@@ -4,10 +4,9 @@
 import { browserHistory } from 'react-router'
 var React = require('react');
 var request = require('superagent');
-var Auth = require('./AuthService');
-var ReactRouter = require('react-router');
+//var LoginAction = require('./LoginActions');
+//var Auth = require('./AuthService');
 //var path = require('./index');
-var Link = ReactRouter.Link;
 
 var SignIn = React.createClass({
   getInitialState: function() {
@@ -22,30 +21,37 @@ var SignIn = React.createClass({
     //window.sessionStorage.token
   },
 
-  handleUserSubmit: function(e) {
-    e.preventDefault();
-
-    // Auth.login(this.state.username, this.state.password)
-    //   .catch(err => {
-    //     console.log('error! ', err);
-    //   });
+  auth: function(username, password) {
     var user = {
-      username: this.state.username,
-      password: this.state.password
+      username: username,
+      password: password
     };
-
     request.post('auth/signin').send(user).end((err, res) => {
       if (err || !res.ok) {
         console.log(err);
       } else if ( res.text === 'user not found' || res.text === 'passwords dont match'){
         console.log(res.text);
       } else {
-        console.log('yay')
-        //ReactRouter.transitionTo('/projects');
-        browserHistory.push('/projects');
+        var jwt = JSON.parse(res.text);
+        this.loginUser(jwt.token);
+        return true;
       }
     });
+  },
 
+  loginUser: function(jwt) {
+    browserHistory.push('/projects');
+    localStorage.setItem('jwt', jwt);
+    console.log(window);
+  },
+
+  handleUserSubmit: function(e) {
+    e.preventDefault();
+
+    this.auth(this.state.username, this.state.password)
+      .catch(err => {
+        console.log('error! ', err);
+      });
     this.setState({username: '', password: ''});
   },
 

@@ -1,14 +1,11 @@
-// import React from 'react';
-// import paths from './index'
-var React = require('react');
-var path = require('./index');
+// // import React from 'react';
+// var React = require('react');
 
-var LoginAction = React.createClass({
-  loginUser: function(jwt){
-    //RouterContainer.get().transitionTo('/projects');
-    paths.get().transitionTo('/projects');
-    localStorage.setItem('jwt', jwt);
-  }
-});
+// var LoginAction = React.createClass({
+//   loginUser: function(jwt){
+//     browserHistory.push('/projects');
+//     localStorage.setItem('jwt', jwt);
+//   }
+// });
 
-module.exports = LoginAction;
+// module.exports = LoginAction;
