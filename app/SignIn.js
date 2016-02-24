@@ -1,9 +1,13 @@
-// import React from 'react';
+//import React from 'react';
 // import request from 'superagent';
 // import Auth from './AuthService';
+import { browserHistory } from 'react-router'
 var React = require('react');
 var request = require('superagent');
 var Auth = require('./AuthService');
+var ReactRouter = require('react-router');
+//var path = require('./index');
+var Link = ReactRouter.Link;
 
 var SignIn = React.createClass({
   getInitialState: function() {
@@ -37,6 +41,8 @@ var SignIn = React.createClass({
         console.log(res.text);
       } else {
         console.log('yay')
+        //ReactRouter.transitionTo('/projects');
+        browserHistory.push('/projects');
       }
     });
 
@@ -54,9 +60,9 @@ var SignIn = React.createClass({
   render: function() {
     return (
       <div>
-        <h3>Sign in</h3>
+        <h1>Sign in</h1>
         <form className="userForm">
-
+          {/*<Link to="/projects"></Link>*/}
           <input 
             type="username"
             placeholder="username"
@@ -75,7 +81,6 @@ var SignIn = React.createClass({
             type="submit"
             value="Sign In"
             onClick={this.handleUserSubmit}
-            Link to="/projects"
           />
         </form>
       </div>
