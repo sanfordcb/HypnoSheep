@@ -3,6 +3,7 @@ var marked = require('marked');
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
+import request from 'superagent';
 import Resource from './Resource.js';
 
 var LinkBox = React.createClass({
@@ -86,17 +87,21 @@ var LinkForm = React.createClass({
 });
 
 var LinkList = React.createClass({
-  deleteLink: function() {
-    console.log('link deleted');
-  },
 
   render: function() {
-    var linkNodes = this.props.data.map(function(link) {
+    var linkNodes = this.props.data.map((link) => {
+      const deleteLink = () => {
+        request
+          .delete(`/api/links/${link._id}`)
+          .end((err, res) => {
+            console.log(res);
+          });
+      };
       return (
         <Resource
           key={link._id}
           link={link}
-          deleteLink={this.deleteLink}
+          deleteLink={deleteLink}
         >
           {link.url}
         </Resource>
