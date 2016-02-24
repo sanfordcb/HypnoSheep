@@ -3,6 +3,7 @@ var marked = require('marked');
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
+import Resource from './Resource.js';
 
 var LinkBox = React.createClass({
   getInitialState: function() {
@@ -85,27 +86,25 @@ var LinkForm = React.createClass({
 });
 
 var LinkList = React.createClass({
+  deleteLink: function() {
+    console.log('link deleted');
+  },
+
   render: function() {
     var linkNodes = this.props.data.map(function(link) {
       return (
-        <LinkItem link={link} key={link._id}>
+        <Resource
+          key={link._id}
+          link={link}
+          deleteLink={this.deleteLink}
+        >
           {link.url}
-        </LinkItem>
+        </Resource>
       );
     });
     return (
       <div className="linkList">
         {linkNodes}
-      </div>
-    );
-  }
-});
-
-var LinkItem = React.createClass({
-  render: function() {
-    return (
-      <div className="link">
-        <Link to={`${this.props.link.url}`}>{this.props.link.url}</Link>
       </div>
     );
   }
