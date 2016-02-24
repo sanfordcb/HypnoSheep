@@ -3,12 +3,29 @@ var marked = require('marked');
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
+import request from 'superagent';
+import Resource from './Resource.js';
 
 var LinkBox = React.createClass({
   getInitialState: function() {
     return {
       data: []
     };
+  },
+
+  getLinks: function() {
+    $.ajax({
+      url: `/api/links/${this.props.params.id}`,
+      dataType: 'text',
+      cache: false,
+      type: 'GET',
+      success: (data) => {
+        this.setState({ data: JSON.parse(data) });
+      },
+      error: (xhr, status, err) => {
+        console.error('/api/links', status, err.toString());
+      }
+    });
   },
 
   handleLinkSubmit: function(link) {
@@ -28,18 +45,7 @@ var LinkBox = React.createClass({
   },
 
   componentDidMount: function() {
-    $.ajax({
-      url: '/api/links/' + this.props.params.id,
-      dataType: 'text',
-      cache: false,
-      type: 'GET',
-      success: (data) => {
-        this.setState({data: this.state.data.concat(JSON.parse(data))});
-      },
-      error: (xhr, status, err) => {
-        console.error('/api/links', status, err.toString());
-      }
-    });
+    this.getLinks();
   },
 
   render: function() {
@@ -47,7 +53,10 @@ var LinkBox = React.createClass({
       <div className="linkBox">
         <h1>Link</h1>
         <LinkForm onLinkSubmit={this.handleLinkSubmit} />
-        <LinkList data={this.state.data} />
+        <LinkList
+          data={this.state.data}
+          getLinks={this.getLinks}
+        />
       </div>
     );
   }
@@ -86,26 +95,31 @@ var LinkForm = React.createClass({
 
 var LinkList = React.createClass({
   render: function() {
-    var linkNodes = this.props.data.map(function(link) {
+    const { data, getLinks } = this.props;
+
+    const linkNodes = data.map((link) => {
+      const deleteLink = () => {
+        request
+          .delete(`/api/links/${link._id}`)
+          .end((err, res) => {
+            if (err || !res.ok) {
+              console.log(err);
+            } else {
+              getLinks();
+            }
+          });
+      };
+
       return (
-        <LinkItem link={link} key={link._id}>
+        <Resource key={link._id} link={link} deleteLink={deleteLink}>
           {link.url}
-        </LinkItem>
+        </Resource>
       );
     });
+
     return (
       <div className="linkList">
         {linkNodes}
-      </div>
-    );
-  }
-});
-
-var LinkItem = React.createClass({
-  render: function() {
-    return (
-      <div className="link">
-        <Link to={`${this.props.link.url}`}>{this.props.link.url}</Link>
       </div>
     );
   }
