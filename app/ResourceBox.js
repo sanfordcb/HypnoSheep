@@ -6,15 +6,15 @@ import request from 'superagent';
 import Resource from './Resource.js';
 
 
-
-const LinkBox = React.createClass({
+// Container for resources associated with the selected project
+const ResourceBox = React.createClass({
   getInitialState() {
     return {
       data: []
     };
   },
 
-  getLinks() {
+  getResources() {
     $.ajax({
       url: `/api/links/${this.props.params.id}`,
       dataType: 'text',
@@ -29,13 +29,13 @@ const LinkBox = React.createClass({
     });
   },
 
-  handleLinkSubmit(link) {
-    link.projectId = this.props.params.id;
+  handleResourceSubmit(resource) {
+    resource.projectId = this.props.params.id;
     $.ajax({
       url: '/api/links',
       contentType: 'application/json',
       type: 'POST',
-      data: JSON.stringify(link),
+      data: JSON.stringify(resource),
       success: (data) => {
         this.setState({data: this.state.data.concat(data)});
       },
@@ -46,47 +46,47 @@ const LinkBox = React.createClass({
   },
 
   componentDidMount() {
-    this.getLinks();
+    this.getResources();
   },
 
   render() {
     return (
-      <div className="linkBox">
-        <h1>Link</h1>
-        <LinkForm onLinkSubmit={this.handleLinkSubmit} />
-        <LinkList
+      <div className="resourceBox">
+        <h1>Resource</h1>
+        <ResourceForm onResourceSubmit={this.handleResourceSubmit} />
+        <ResourceList
           data={this.state.data}
-          getLinks={this.getLinks}
+          getResources={this.getResources}
         />
       </div>
     );
   }
 });
 
-const LinkForm = React.createClass({
+const ResourceForm = React.createClass({
   getInitialState() {
     return {url: ''};
   },
-  handleLinkChange(e) {
+  handleResourceChange(e) {
     this.setState({url: e.target.value});
   },
   handleSubmit(e) {
     e.preventDefault();
-    const link = this.state.url.trim();
-    if (!link) {
+    const resource = this.state.url.trim();
+    if (!resource) {
       return;
     }
-    this.props.onLinkSubmit({url: link});
+    this.props.onResourceSubmit({url: resource});
     this.setState({url: ''});
   },
   render() {
     return (
-      <form className="linkForm" onSubmit={this.handleSubmit}>
+      <form className="resourceForm" onSubmit={this.handleSubmit}>
         <input
-          type="link"
+          type="resource"
           placeholder="Say something..."
           value={this.state.url}
-          onChange={this.handleLinkChange}
+          onChange={this.handleResourceChange}
         />
         <input type="submit" value="Post" />
       </form>
@@ -94,36 +94,36 @@ const LinkForm = React.createClass({
   }
 });
 
-var LinkList = React.createClass({
-  render: function() {
-    const { data, getLinks } = this.props;
+var ResourceList = React.createClass({
+  render() {
+    const { data, getResources } = this.props;
 
-    const linkNodes = data.map((link) => {
-      const deleteLink = () => {
+    const resourceNodes = data.map((resource) => {
+      const deleteResource = () => {
         request
-          .delete(`/api/links/${link._id}`)
+          .delete(`/api/links/${resource._id}`)
           .end((err, res) => {
             if (err || !res.ok) {
               console.log(err);
             } else {
-              getLinks();
+              getResources();
             }
           });
       };
 
       return (
-        <Resource key={link._id} link={link} deleteLink={deleteLink}>
-          {link.url}
+        <Resource key={resource._id} resource={resource} deleteResource={deleteResource}>
+          {resource.url}
         </Resource>
       );
     });
 
     return (
-      <div className="linkList">
-        {linkNodes}
+      <div className="resourceList">
+        {resourceNodes}
       </div>
     );
   }
 });
 
-export default LinkBox;
+export default ResourceBox;
