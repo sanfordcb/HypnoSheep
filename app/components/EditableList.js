@@ -22,11 +22,13 @@ const EditableList = React.createClass({
   render() {
     const { children, editable } = this.props;
     return (
-      {children.map(child =>
-        <Editable editable={editable} content={child.content} callback={this.updateState}>
-          {child}
-        </Editable>
-      )}
+      <div>
+        {children.map((child, i) =>
+          <Editable key={i} editable={editable} content={child.content} callback={this.updateState}>
+            {child}
+          </Editable>
+        )}
+      </div>
     );
   }
 });
