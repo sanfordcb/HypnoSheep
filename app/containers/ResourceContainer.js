@@ -19,6 +19,7 @@ const ResourceContainer = React.createClass({
 
   render() {
     const { resource, deleteResource } = this.props;
+    resource.description = 'awesome resource description';
     return (
       <Resource
         resource={resource}
