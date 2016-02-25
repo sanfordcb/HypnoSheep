@@ -24,17 +24,17 @@
     + *method:* DELETE
     + *route:* `/api/projects/project_id`
 
-## Links
+## Resources
 
-  - **Get all Links**
+  - **Get all Resources**
     + *method:* GET
-    + *route:*`/api/links`
-  - **Get Links for a single Project**
+    + *route:*`/api/resources`
+  - **Get Resources for a single Project**
     + *method:* GET
-    + *route:* `/api/links/:projectId`
-  - **Create a Link**
+    + *route:* `/api/resources/:projectId`
+  - **Create a Resource**
     + *method:* POST
-    + *route:* `/api/links`
-  - **Update a Link**
+    + *route:* `/api/resources`
+  - **Update a Resource**
     + *method:* PUT
-    + *route:* `/api/links/:linkId`
+    + *route:* `/api/resources/:resourceId`
