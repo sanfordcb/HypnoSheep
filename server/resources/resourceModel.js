@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var LinkSchema = new mongoose.Schema({
+var ResourceSchema = new mongoose.Schema({
   project: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Project'
@@ -10,4 +10,4 @@ var LinkSchema = new mongoose.Schema({
   description: String
 });
 
-module.exports = mongoose.model('Link', LinkSchema);
+module.exports = mongoose.model('Resource', ResourceSchema);
