@@ -33,6 +33,8 @@ var SignIn = React.createClass({
         console.log(res.text);
       } else {
         var jwt = JSON.parse(res.text);
+        console.log(res);
+        console.log(Date.now());
         this.loginUser(jwt.token);
         return true;
       }

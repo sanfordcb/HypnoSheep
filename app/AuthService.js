@@ -56,5 +56,5 @@
 // });
 
 
-//module.exports = Auth;
-export default new Auth();
+module.exports = Auth;
+//export default new Auth();
