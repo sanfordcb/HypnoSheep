@@ -15,43 +15,63 @@ const ResourceBox = React.createClass({
   },
 
   getResources() {
-    $.ajax({
-      url: `/api/links/${this.props.params.id}`,
-      dataType: 'text',
-      cache: false,
-      type: 'GET',
-      success: (data) => {
-        this.setState({ data: JSON.parse(data) });
-      },
-      error: (xhr, status, err) => {
-        console.error('/api/links', status, err.toString());
-      }
-    });
+    request
+      .get(`/api/links/${this.props.params.id}`)
+      .end((err, resp) => {
+        if(!err) {
+          this.setState({data: (resp.body)});
+        } else {
+          console.error(err);
+        }
+      });
+    // $.ajax({
+    //   url: `/api/links/${this.props.params.id}`,
+    //   dataType: 'text',
+    //   cache: false,
+    //   type: 'GET',
+    //   success: (data) => {
+    //     this.setState({ data: JSON.parse(data) });
+    //   },
+    //   error: (xhr, status, err) => {
+    //     console.error('/api/links', status, err.toString());
+    //   }
+    // });
   },
 
   // When user adds a new resource, a POST request is submitted, and 
   // the state is updated to add the new resource to the list
   handleResourceSubmit(resource) {
+    console.log(this.props.params.id);
     resource.projectId = this.props.params.id;
-    $.ajax({
-      url: '/api/links',
-      contentType: 'application/json',
-      type: 'POST',
-      data: JSON.stringify(resource),
-      success: (data) => {
-        this.setState({data: this.state.data.concat(data)});
-      },
-      error: (xhr, status, err) => {
-        console.error('/api/projects', status, err.toString());
-      }
-    });
+    request
+      .post('/api/links')
+      .send(resource)
+      .end((err, resp) => {
+        if(!err) {
+          console.log('Success!');
+          this.setState({data: this.state.data.concat([resp.body])});
+        } else {
+          console.error(err);
+        }
+      });
+    // $.ajax({
+    //   url: '/api/links',
+    //   contentType: 'application/json',
+    //   type: 'POST',
+    //   data: JSON.stringify(resource),
+    //   success: (data) => {
+    //     this.setState({data: this.state.data.concat(data)});
+    //   },
+    //   error: (xhr, status, err) => {
+    //     console.error('/api/projects', status, err.toString());
+    //   }
+    // });
   },
 
 
   componentDidMount() {
     // Sends get request when component is first rendered, loading any resources already
     // stored for the project
-    console.log(this.props);
     this.getResources();
   },
 

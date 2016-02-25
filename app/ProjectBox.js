@@ -11,6 +11,7 @@ const ProjectBox = React.createClass({
       .get('/api/projects')
       .end((err, resp) => {
         if(!err) {
+          console.log(resp.body);
           this.setState({data: (resp.body)});
         } else {
           console.error(err);
@@ -38,6 +39,7 @@ const ProjectBox = React.createClass({
     this.setState({data: newProjects});
     request
       .post('api/projects')
+      .send(project)
       .end((err, resp) => {
         if(!err) {
           console.log('Success!');
