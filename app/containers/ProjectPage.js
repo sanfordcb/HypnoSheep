@@ -1,11 +1,7 @@
-import $ from 'jquery';
-import marked from 'marked';
 import React from 'react';
-import { Link } from 'react-router';
 import request from 'superagent';
 import ResourceList from '../components/ResourceList';
 import ResourceForm from '../components/ResourceForm';
-
 
 // Container for resources associated with the selected project
 const ProjectPage = React.createClass({
