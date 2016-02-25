@@ -1,59 +1,59 @@
-var $ = require('jquery');
-var React = require('react');
-var ReactRouter = require('react-router');
+import $ from 'jquery';
+import React from 'react';
+import { Link, Router } from 'react-router';
+import Project from './Project';
 
-var Router = ReactRouter.Router;
-var Link = ReactRouter.Link;
 
 // Container for /projects view and functionality
-var ProjectBox = React.createClass({
-  loadProjectsFromServer: function() {
+const ProjectBox = React.createClass({
+  loadProjectsFromServer() {
     $.ajax({
       url: 'api/projects',
       dataType: 'text',
       cache: false,
       type: 'GET',
-      success: function(data) {
+      success: (data) => {
         this.setState({data: JSON.parse(data)});
-      }.bind(this),
-      error: function(xhr, status, err) {
+      },
+      error: (xhr, status, err) => {
         console.error('api/projects', status, err.toString());
-      }.bind(this)
+      }
     });
   },
 
   // When user adds a new project, the state is updated to add the new project to the list, and it's
-  // added to the database via Post request.
-  handleProjectSubmit: function(project) {
-    var projects = this.state.data;
-    var newProjects = projects.concat([project]);
+  // added to the database via Post request
+  handleProjectSubmit(project) {
+    let projects = this.state.data;
+    let newProjects = projects.concat([project]);
     this.setState({data: newProjects});
     $.ajax({
       url: 'api/projects',
       contentType: 'application/json',
       type: 'POST',
       data: JSON.stringify(project),
-      success: function(project) {
+      success: (project) => {
+        // TODO: should something happen here?
         //project already added
       },
-      error: function(xhr, status, err) {
+      error: (xhr, status, err) => {
         this.setState({data: projects});
         console.error('api/projects', status, err.toString());
-      }.bind(this)
+      }
     });
   },
 
-  getInitialState: function() {
+  getInitialState() {
     // sets this.state.data to blank
     return {projectId: 0, data: []};
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     //initiates get request to set this.state.data to whatever is stored in the database
     this.loadProjectsFromServer();
   },
 
-  render: function() {
+  render() {
     //by having onCommentSubmit={this.handleProjectSubmit} in the ProjectForm tag, we are able to pass
     //ProjectBox's handleProjectSubmit method to ProjectForm on the this.props object. ProjectBox
     //i.e. this.props.handleProjectSubmit
@@ -67,16 +67,16 @@ var ProjectBox = React.createClass({
   }
 });
 
-var ProjectForm = React.createClass({
-  getInitialState: function() {
+const ProjectForm = React.createClass({
+  getInitialState() {
     return {name: ''};
   },
-  handleProjectChange: function(e) {
+  handleProjectChange(e) {
     this.setState({name: e.target.value});
   },
-  handleSubmit: function(e) {
+  handleSubmit(e) {
     e.preventDefault();
-    var projectName = this.state.name.trim();
+    let projectName = this.state.name.trim();
     if (!projectName) {
       return;
     }
@@ -84,7 +84,7 @@ var ProjectForm = React.createClass({
     this.props.onProjectSubmit({name: projectName});
     this.setState({name: ''});
   },
-  render: function() {
+  render() {
     return (
       <form className="commentForm" onSubmit={this.handleSubmit}>
         <input
@@ -99,20 +99,35 @@ var ProjectForm = React.createClass({
   }
 });
 
-var ProjectList = React.createClass({
-  render: function() {
+const ProjectList = React.createClass({
+  render() {
     // render returns an array of Project components by mapping the project objects
     // stored in this.props.data
     if (this.props.data.length === 0) {
       return <div>Loading Projects...</div>
     }
-    var projectNodes = this.props.data.map(function(project) {
+    const { data, getProjects } = this.props;
+    
+    const projectNodes = data.map((project) => {
+      const deleteProject = () => {
+        request
+          .delete('/api/projects/${project._id}')
+          .end((err, res) => {
+            if(err || !res.ok) {
+              console.log(err);
+            } else {
+              getProjects();
+            }
+          });
+      };
+
       return (
-        <Project project={project} key={project._id}>
+        <Project project={project} key={project._id} deleteProject={deleteProject}>
           {project.name}
         </Project>
       );
     });
+
     return (
       <div className="projectList">
         {projectNodes}
@@ -121,18 +136,18 @@ var ProjectList = React.createClass({
   }
 });
 
-var Project = React.createClass({
-  render: function() {
-    //returns a div that when clicked on will navigate to the links page for that specific project.
-    //this.props.project is passed in from ProjectList by saying project={project} where {project}
-    //refers to an individual project passed as a parameter to the map function
-    //i.e. {project} = {name: "My Project", id: 1234}
-    return (
-      <div className="project">
-        <Link to={`/links/${this.props.project._id}`}>{this.props.project.name}</Link>
-      </div>
-    );
-  }
-});
+// var Project = React.createClass({
+//   render() {
+//     //returns a div that when clicked on will navigate to the links page for that specific project.
+//     //this.props.project is passed in from ProjectList by saying project={project} where {project}
+//     //refers to an individual project passed as a parameter to the map function
+//     //i.e. {project} = {name: "My Project", id: 1234}
+//     return (
+//       <div className="project">
+//         <Link to={`/links/${this.props.project._id}`}>{this.props.project.name}</Link>
+//       </div>
+//     );
+//   }
+// });
 
-module.exports = ProjectBox;
+export default ProjectBox;

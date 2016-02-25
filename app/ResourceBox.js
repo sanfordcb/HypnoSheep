@@ -101,7 +101,7 @@ const ResourceForm = React.createClass({
   }
 });
 
-var ResourceList = React.createClass({
+const ResourceList = React.createClass({
 
   // render returns an array of Resource components by mapping the resource objects
   // stored in this.props.data
