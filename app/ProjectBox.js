@@ -7,18 +7,27 @@ import request from 'superagent';
 // Container for /projects view and functionality
 const ProjectBox = React.createClass({
   loadProjectsFromServer() {
-    $.ajax({
-      url: 'api/projects',
-      dataType: 'text',
-      cache: false,
-      type: 'GET',
-      success: (data) => {
-        this.setState({data: JSON.parse(data)});
-      },
-      error: (xhr, status, err) => {
-        console.error('api/projects', status, err.toString());
-      }
-    });
+    request
+      .get('/api/projects')
+      .end((err, resp) => {
+        if(!err) {
+          this.setState({data: (resp.body)});
+        } else {
+          console.error(err);
+        }
+      });
+    // $.ajax({
+    //   url: 'api/projects',
+    //   dataType: 'text',
+    //   cache: false,
+    //   type: 'GET',
+    //   success: (data) => {
+    //     this.setState({data: JSON.parse(data)});
+    //   },
+    //   error: (xhr, status, err) => {
+    //     console.error('api/projects', status, err.toString());
+    //   }
+    // });
   },
 
   // When user adds a new project, the state is updated to add the new project to the list, and it's
@@ -27,20 +36,29 @@ const ProjectBox = React.createClass({
     let projects = this.state.data;
     let newProjects = projects.concat([project]);
     this.setState({data: newProjects});
-    $.ajax({
-      url: 'api/projects',
-      contentType: 'application/json',
-      type: 'POST',
-      data: JSON.stringify(project),
-      success: (project) => {
-        // TODO: should something happen here?
-        //project already added
-      },
-      error: (xhr, status, err) => {
-        this.setState({data: projects});
-        console.error('api/projects', status, err.toString());
-      }
-    });
+    request
+      .post('api/projects')
+      .end((err, resp) => {
+        if(!err) {
+          console.log('Success!');
+        } else {
+          console.error(err);
+        }
+      });
+    // $.ajax({
+    //   url: 'api/projects',
+    //   contentType: 'application/json',
+    //   type: 'POST',
+    //   data: JSON.stringify(project),
+    //   success: (project) => {
+    //     // TODO: should something happen here?
+    //     //project already added
+    //   },
+    //   error: (xhr, status, err) => {
+    //     this.setState({data: projects});
+    //     console.error('api/projects', status, err.toString());
+    //   }
+    // });
   },
 
   getInitialState() {
@@ -80,7 +98,6 @@ const ProjectForm = React.createClass({
     if (!projectName) {
       return;
     }
-    console.log('project', projectName);
     this.props.onProjectSubmit({name: projectName});
     this.setState({name: ''});
   },
