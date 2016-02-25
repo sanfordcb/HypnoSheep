@@ -5,9 +5,9 @@ import { Link } from 'react-router';
 // React, props is passed as the first argument. Thus, we
 // can destructure the values we need from props
 //              v  v       v       v
-export default ({ link, deleteLink }) => (
+export default ({ resource, deleteResource }) => (
   <div>
-    <a href={link.url}>{link.url}</a>
-    <button onClick={deleteLink}> delete </button>
+    <a href={resource.url}>{resource.url}</a>
+    <button onClick={deleteResource}> delete </button>
   </div>
 );

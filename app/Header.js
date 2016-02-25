@@ -7,7 +7,7 @@ import { Router, Route, Link } from 'react-router';
 const Header = React.createClass({
   render() {
     return (
-      <nav class='app-header'>
+      <nav className='app-header'>
         <Home /> {'  '}
         <SignOut />
       </nav>

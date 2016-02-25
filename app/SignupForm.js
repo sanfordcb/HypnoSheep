@@ -1,15 +1,15 @@
-var React = require('react');
-var request = require('superagent');
+import React from 'react';
+import request from 'superagent';
 
-var SignupForm = React.createClass({
-  getInitialState: function() {
+const SignupForm = React.createClass({
+  getInitialState() {
     return {
       username: '',
       password: '',
     };
   },
 
-  render: function() {
+  render() {
     return (
       <div>
         <h3>Sign Up</h3>
@@ -39,7 +39,7 @@ var SignupForm = React.createClass({
     );
   },
 
-  onSignupSubmit: function() {
+  onSignupSubmit() {
     
     //format data
     var user = {
@@ -65,4 +65,4 @@ var SignupForm = React.createClass({
   }
 });
 
-module.exports = SignupForm;
+export default SignupForm;
