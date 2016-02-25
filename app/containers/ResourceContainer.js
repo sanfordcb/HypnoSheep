@@ -3,25 +3,39 @@ import request from 'superagent';
 import Resource from '../components/Resource';
 
 const ResourceContainer = React.createClass({
+  getInitialState() {
+    return {
+      editable: false
+    };
+  },
+
+  toggleEdit() {
+    this.setState({ editable: !this.state.editable });
+  },
+
   updateResource(data) {
+    if (!data._id) {
+      console.error('id required');
+    }
     request
-      .put()
-      .end(function(err, res) {
+      .put(`/api/resources/${data._id}`)
+      .end((err, res) => {
         if (err || !res.ok) {
-          console.log('Error updating resource: ', err, res);
+          return console.log('Error updating resource: ', err, res);
         }
-        console.log('Resource updated successfully: ', res);
+        return console.log('Resource updated successfully: ', res);
       });
   },
 
   render() {
     const { resource, deleteResource } = this.props;
-    console.log('Resource is: ', resource);
     return (
       <Resource
         resource={resource}
         deleteResource={deleteResource}
         updateResource={this.updateResource}
+        toggleEdit={this.toggleEdit}
+        editable={this.state.editable}
       />
     );
   }
