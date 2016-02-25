@@ -12,7 +12,7 @@ const routes = (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <Route path="projects" component={ProjectBox} />
-      <Route path="links/:id" component={ResourceBox} />
+      <Route path="resources/:id" component={ResourceBox} />
       <Route path="signup" component={SignupForm} />
       <Route path="signin" component={SignIn} />
     </Route>

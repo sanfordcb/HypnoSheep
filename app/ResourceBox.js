@@ -16,7 +16,7 @@ const ResourceBox = React.createClass({
 
   getResources() {
     request
-      .get(`/api/links/${this.props.params.id}`)
+      .get(`/api/resources/${this.props.params.id}`)
       .end((err, resp) => {
         if(!err) {
           this.setState({data: (resp.body)});
@@ -24,18 +24,6 @@ const ResourceBox = React.createClass({
           console.error(err);
         }
       });
-    // $.ajax({
-    //   url: `/api/links/${this.props.params.id}`,
-    //   dataType: 'text',
-    //   cache: false,
-    //   type: 'GET',
-    //   success: (data) => {
-    //     this.setState({ data: JSON.parse(data) });
-    //   },
-    //   error: (xhr, status, err) => {
-    //     console.error('/api/links', status, err.toString());
-    //   }
-    // });
   },
 
   // When user adds a new resource, a POST request is submitted, and 
@@ -44,7 +32,7 @@ const ResourceBox = React.createClass({
     console.log(this.props.params.id);
     resource.projectId = this.props.params.id;
     request
-      .post('/api/links')
+      .post('/api/resources')
       .send(resource)
       .end((err, resp) => {
         if(!err) {
@@ -54,19 +42,7 @@ const ResourceBox = React.createClass({
           console.error(err);
         }
       });
-    // $.ajax({
-    //   url: '/api/links',
-    //   contentType: 'application/json',
-    //   type: 'POST',
-    //   data: JSON.stringify(resource),
-    //   success: (data) => {
-    //     this.setState({data: this.state.data.concat(data)});
-    //   },
-    //   error: (xhr, status, err) => {
-    //     console.error('/api/projects', status, err.toString());
-    //   }
-    // });
-  },
+    },
 
 
   componentDidMount() {
@@ -132,7 +108,7 @@ const ResourceList = React.createClass({
     const resourceNodes = data.map((resource) => {
       const deleteResource = () => {
         request
-          .delete(`/api/links/${resource._id}`)
+          .delete(`/api/resources/${resource._id}`)
           .end((err, res) => {
             if (err || !res.ok) {
               console.log(err);

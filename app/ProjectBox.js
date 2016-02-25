@@ -17,18 +17,6 @@ const ProjectBox = React.createClass({
           console.error(err);
         }
       });
-    // $.ajax({
-    //   url: 'api/projects',
-    //   dataType: 'text',
-    //   cache: false,
-    //   type: 'GET',
-    //   success: (data) => {
-    //     this.setState({data: JSON.parse(data)});
-    //   },
-    //   error: (xhr, status, err) => {
-    //     console.error('api/projects', status, err.toString());
-    //   }
-    // });
   },
 
   // When user adds a new project, the state is updated to add the new project to the list, and it's
@@ -47,20 +35,6 @@ const ProjectBox = React.createClass({
           console.error(err);
         }
       });
-    // $.ajax({
-    //   url: 'api/projects',
-    //   contentType: 'application/json',
-    //   type: 'POST',
-    //   data: JSON.stringify(project),
-    //   success: (project) => {
-    //     // TODO: should something happen here?
-    //     //project already added
-    //   },
-    //   error: (xhr, status, err) => {
-    //     this.setState({data: projects});
-    //     console.error('api/projects', status, err.toString());
-    //   }
-    // });
   },
 
   getInitialState() {
@@ -154,19 +128,5 @@ const ProjectList = React.createClass({
     );
   }
 });
-
-// var Project = React.createClass({
-//   render() {
-//     //returns a div that when clicked on will navigate to the links page for that specific project.
-//     //this.props.project is passed in from ProjectList by saying project={project} where {project}
-//     //refers to an individual project passed as a parameter to the map function
-//     //i.e. {project} = {name: "My Project", id: 1234}
-//     return (
-//       <div className="project">
-//         <Link to={`/links/${this.props.project._id}`}>{this.props.project.name}</Link>
-//       </div>
-//     );
-//   }
-// });
 
 export default ProjectBox;
