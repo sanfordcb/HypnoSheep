@@ -5,7 +5,7 @@ var projectRoutes = require('./projects/projectRoutes.js');
 
 var app = express.Router();
 
-app.use('/resources', linkRoutes);
+app.use('/resources', resourceRoutes);
 app.use('/projects', projectRoutes);
 
 module.exports = app;
