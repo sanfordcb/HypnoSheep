@@ -3,16 +3,6 @@ import request from 'superagent';
 import Resource from '../components/Resource';
 
 const ResourceContainer = React.createClass({
-  getInitialState() {
-    return {
-      editable: false
-    };
-  },
-
-  toggleEdit() {
-    this.setState({ editable: !this.state.editable });
-  },
-
   updateResource(data) {
     if (!data._id) {
       console.error('id required');
@@ -34,8 +24,6 @@ const ResourceContainer = React.createClass({
         resource={resource}
         deleteResource={deleteResource}
         updateResource={this.updateResource}
-        toggleEdit={this.toggleEdit}
-        editable={this.state.editable}
       />
     );
   }
