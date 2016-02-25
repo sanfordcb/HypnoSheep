@@ -51,6 +51,7 @@ const ResourceBox = React.createClass({
   componentDidMount() {
     // Sends get request when component is first rendered, loading any resources already
     // stored for the project
+    console.log(this.props);
     this.getResources();
   },
 
@@ -59,7 +60,7 @@ const ResourceBox = React.createClass({
   render() {
     return (
       <div className="resourceBox">
-        <h1>Resource</h1>
+        <h1>Resources</h1>
         <ResourceForm onResourceSubmit={this.handleResourceSubmit} />
         <ResourceList
           data={this.state.data}

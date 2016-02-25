@@ -2,7 +2,7 @@ import $ from 'jquery';
 import React from 'react';
 import { Link, Router } from 'react-router';
 import Project from './Project';
-
+import request from 'superagent';
 
 // Container for /projects view and functionality
 const ProjectBox = React.createClass({
@@ -61,7 +61,7 @@ const ProjectBox = React.createClass({
       <div className="projectBox">
         <h1>Projects</h1>
         <ProjectForm onProjectSubmit={this.handleProjectSubmit} />
-        <ProjectList data={this.state.data} />
+        <ProjectList data={this.state.data} loadProjectsFromServer={this.loadProjectsFromServer}/>
       </div>
     );
   }
@@ -106,17 +106,17 @@ const ProjectList = React.createClass({
     if (this.props.data.length === 0) {
       return <div>Loading Projects...</div>
     }
-    const { data, getProjects } = this.props;
+    const { data, loadProjectsFromServer } = this.props;
     
     const projectNodes = data.map((project) => {
       const deleteProject = () => {
         request
-          .delete('/api/projects/${project._id}')
+          .delete(`/api/projects/${project._id}`)
           .end((err, res) => {
             if(err || !res.ok) {
               console.log(err);
             } else {
-              getProjects();
+              loadProjectsFromServer();
             }
           });
       };
