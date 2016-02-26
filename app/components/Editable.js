@@ -12,6 +12,7 @@ const Editable = ({ editable, callback, children }) => {
       <TextField
         defaultValue={content}
         floatingLabelText={editKey}
+        underlineShow={false}
         onChange={event => callback(event.target.value, editKey)}
       />
     );
