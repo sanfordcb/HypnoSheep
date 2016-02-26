@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import request from 'superagent';
 import ResourceContainer from './ResourceContainer';
 import ResourceList from '../components/ResourceList';
+import ResourceForm from '../components/ResourceForm';
 
 
 // Container for resources associated with the selected project
@@ -68,37 +69,5 @@ const ProjectPage = React.createClass({
     );
   }
 });
-
-const ResourceForm = React.createClass({
-  getInitialState() {
-    return {url: ''};
-  },
-  handleResourceChange(e) {
-    this.setState({url: e.target.value});
-  },
-  handleSubmit(e) {
-    e.preventDefault();
-    const resource = this.state.url.trim();
-    if (!resource) {
-      return;
-    }
-    this.props.onResourceSubmit({url: resource});
-    this.setState({url: ''});
-  },
-  render() {
-    return (
-      <form className="resourceForm" onSubmit={this.handleSubmit}>
-        <input
-          type="resource"
-          placeholder="Say something..."
-          value={this.state.url}
-          onChange={this.handleResourceChange}
-        />
-        <input type="submit" value="Post" />
-      </form>
-    );
-  }
-});
-
 
 export default ProjectPage;
