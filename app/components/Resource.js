@@ -4,8 +4,6 @@ import EditableList from './EditableList';
 
 import Paper from 'material-ui/lib/paper';
 
-// TODO: make a 'stateful button' for our edit/cancel and save/delete buttons
-
 const Resource = React.createClass({
   save(data) {
     this.props.updateResource(

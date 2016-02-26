@@ -3,8 +3,6 @@ import request from 'superagent';
 import ResourceContainer from '../containers/ResourceContainer';
 
 const ResourceList = React.createClass({
-  // render returns an array of Resource components by mapping the resource objects
-  // stored in this.props.data
   deleteResource(id) {
     request
       .delete(`/api/resources/${id}`)
