@@ -1,55 +1,51 @@
-import $ from 'jquery';
 import React from 'react';
-import { Link, Router } from 'react-router';
 import Project from './Project';
 import request from 'superagent';
 
 // Container for /projects view and functionality
 const ProjectBox = React.createClass({
+  getInitialState() {
+    // sets this.state.data to blank
+    return { projectId: 0, data: [] };
+  },
+
+  componentDidMount() {
+    // initiates get request to set this.state.data to whatever is stored in the database
+    this.loadProjectsFromServer();
+  },
+
   loadProjectsFromServer() {
     request
       .get('/api/projects')
       .end((err, resp) => {
-        if(!err) {
-          this.setState({data: (resp.body)});
+        if (!err) {
+          this.setState({ data: (resp.body) });
         } else {
           console.error(err);
         }
       });
   },
 
-  // When user adds a new project, the state is updated to add the new project to the list, and it's
-  // added to the database via Post request
+  // When user adds a new project, a POST request is sent, and the new project
+  // is added to the list after confirmation from the server that it
+  // was successfully created.
   handleProjectSubmit(project) {
-    let projects = this.state.data;
-    let newProjects = projects.concat([project]);
-    this.setState({data: newProjects});
     request
       .post('api/projects')
       .send(project)
       .end((err, resp) => {
-        if(!err) {
-          console.log('Success!');
+        if (!err) {
+          this.setState({ data: this.state.data.concat(resp.body) });
         } else {
           console.error(err);
         }
       });
   },
 
-  getInitialState() {
-    // sets this.state.data to blank
-    return {projectId: 0, data: []};
-  },
-
-  componentDidMount() {
-    //initiates get request to set this.state.data to whatever is stored in the database
-    this.loadProjectsFromServer();
-  },
-
   render() {
-    //by having onCommentSubmit={this.handleProjectSubmit} in the ProjectForm tag, we are able to pass
-    //ProjectBox's handleProjectSubmit method to ProjectForm on the this.props object. ProjectBox
-    //i.e. this.props.handleProjectSubmit
+    // by having onCommentSubmit={this.handleProjectSubmit} in the ProjectForm tag, we are able to pass
+    // ProjectBox's handleProjectSubmit method to ProjectForm on the this.props object. ProjectBox
+    // i.e. this.props.handleProjectSubmit
     return (
       <div className="projectBox">
         <h1>Projects</h1>
@@ -62,10 +58,10 @@ const ProjectBox = React.createClass({
 
 const ProjectForm = React.createClass({
   getInitialState() {
-    return {name: ''};
+    return { name: '' };
   },
   handleProjectChange(e) {
-    this.setState({name: e.target.value});
+    this.setState({ name: e.target.value });
   },
   handleSubmit(e) {
     e.preventDefault();
@@ -73,8 +69,8 @@ const ProjectForm = React.createClass({
     if (!projectName) {
       return;
     }
-    this.props.onProjectSubmit({name: projectName});
-    this.setState({name: ''});
+    this.props.onProjectSubmit({ name: projectName });
+    this.setState({ name: '' });
   },
   render() {
     return (
@@ -99,13 +95,13 @@ const ProjectList = React.createClass({
       return <div>Loading Projects...</div>
     }
     const { data, loadProjectsFromServer } = this.props;
-    
+
     const projectNodes = data.map((project) => {
       const deleteProject = () => {
         request
           .delete(`/api/projects/${project._id}`)
           .end((err, res) => {
-            if(err || !res.ok) {
+            if (err || !res.ok) {
               console.log(err);
             } else {
               loadProjectsFromServer();
