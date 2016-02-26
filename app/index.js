@@ -24,7 +24,7 @@ const routes = (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={LandingPage} />
-      <Route path="projects" component={ProjectBox} />
+      <Route path="projects/:id" component={ProjectBox} />
       <Route path="resources/:id" component={ProjectPage} />
       <Route path="signup" component={SignupForm} />
       <Route path="signin" component={SignIn} />

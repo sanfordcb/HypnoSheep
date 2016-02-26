@@ -10,6 +10,7 @@ const ProjectBox = React.createClass({
   },
 
   componentDidMount() {
+    this.props.params
     // initiates get request to set this.state.data to whatever is stored in the database
     this.loadProjectsFromServer();
   },

@@ -32,6 +32,7 @@ var SignIn = React.createClass({
       } else if ( res.text === 'user not found' || res.text === 'passwords dont match'){
         console.log(res.text);
       } else {
+        var userId = res.body.user._id;
         var jwt = JSON.parse(res.text);
         console.log(res);
         console.log(Date.now());
@@ -41,8 +42,8 @@ var SignIn = React.createClass({
     });
   },
 
-  loginUser: function(jwt) {
-    browserHistory.push('/projects');
+  loginUser: function(userId, jwt) {
+    browserHistory.push('/projects/userId');
     localStorage.setItem('jwt', jwt);
     console.log(window);
   },
@@ -52,8 +53,8 @@ var SignIn = React.createClass({
 
     this.auth(this.state.username, this.state.password)
       .catch(err => {
-        console.log('error! ', err);
-      });
+          console.log('error! ', err);
+        });
     this.setState({username: '', password: ''});
   },
 
