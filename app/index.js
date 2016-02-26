@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory } from 'react-router'
+import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
+import LandingPage from './LandingPage';
 import App from './App';
 import ProjectBox from './ProjectBox';
 import ResourceBox from './ResourceBox';
@@ -11,10 +12,12 @@ import SignIn from './SignIn';
 const routes = (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
+      <IndexRoute component={LandingPage} />
       <Route path="projects" component={ProjectBox} />
       <Route path="resources/:id" component={ResourceBox} />
       <Route path="signup" component={SignupForm} />
       <Route path="signin" component={SignIn} />
+    }
     </Route>
   </Router>
 );
