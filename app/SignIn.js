@@ -36,14 +36,15 @@ var SignIn = React.createClass({
         var jwt = JSON.parse(res.text);
         console.log(res);
         console.log(Date.now());
-        this.loginUser(jwt.token);
+        this.loginUser(userId, jwt.token);
         return true;
       }
     });
   },
 
   loginUser: function(userId, jwt) {
-    browserHistory.push('/projects/userId');
+    console.log(userId);
+    browserHistory.push('/projects/' + userId);
     localStorage.setItem('jwt', jwt);
     console.log(window);
   },
