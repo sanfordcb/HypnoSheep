@@ -4,6 +4,7 @@ import IconButton from 'material-ui/lib/icon-button';
 import ModeEditIcon from 'material-ui/lib/svg-icons/editor/mode-edit';
 import SaveIcon from 'material-ui/lib/svg-icons/content/save';
 import ClearIcon from 'material-ui/lib/svg-icons/content/clear';
+import DeleteIcon from 'material-ui/lib/svg-icons/action/delete';
 
 import Editable from './Editable';
 
@@ -48,10 +49,11 @@ const EditableList = React.createClass({
   },
 
   render() {
-    const { children } = this.props;
+    const { children, remove } = this.props;
     const { editable } = this.state;
     const buttonStyle = {
-      float: 'right'
+      float: 'right',
+      display: 'inline-block'
     };
     return (
       <div>
@@ -66,12 +68,18 @@ const EditableList = React.createClass({
           </IconButton>
         }
 
-
         {children.map((child, i) =>
           <Editable key={i} editable={editable} content={child.content} callback={this.updateState}>
             {child}
           </Editable>
         )}
+
+        {editable &&
+          <IconButton onClick={remove} tooltip="Delete"tooltipPosition="bottom-left">
+            <DeleteIcon />
+          </IconButton>
+        }
+
 
       </div>
     );

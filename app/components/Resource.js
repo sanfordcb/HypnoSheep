@@ -3,8 +3,6 @@ import React from 'react';
 import EditableList from './EditableList';
 
 import Paper from 'material-ui/lib/paper';
-import DeleteIcon from 'material-ui/lib/svg-icons/action/delete';
-import IconButton from 'material-ui/lib/icon-button';
 
 // TODO: make a 'stateful button' for our edit/cancel and save/delete buttons
 
@@ -30,19 +28,16 @@ const Resource = React.createClass({
     };
 
     return (
-      <Paper style ={style} zDepth={2} onClick={() => this.open(resource.url)}>
+      <Paper style ={style} zDepth={3} onClick={() => this.open(resource.url)}>
 
-        <EditableList resource={resource} update={this.save}>
+        <EditableList resource={resource} update={this.save} remove={deleteResource}>
 
-          <Paper
-            zDepth={1}
-            content={resource.url}
-            editKey={'url'}
-          >
-            URL: {resource.url}
-          </Paper>
+          <h3 style={{ display: 'inline-block' }} content={resource.url} editKey={'url'}>
+            {resource.url}
+          </h3>
 
           <Paper
+            style={{ padding: 10 }}
             zDepth={1}
             content={resource.description}
             editKey={'description'}
@@ -51,14 +46,6 @@ const Resource = React.createClass({
           </Paper>
 
         </EditableList>
-
-        <IconButton
-          onClick={deleteResource}
-          tooltip="Delete"
-          tooltipPosition="bottom-left"
-        >
-          <DeleteIcon />
-        </IconButton>
 
       </Paper>
     );
