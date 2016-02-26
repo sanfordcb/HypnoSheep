@@ -4,7 +4,7 @@ import Header from './Header';
 
 const App = React.createClass({
   render() {
-    const path - this.props.location.pathname;
+    const path = this.props.location.pathname;
     if(path === '/' || path === '/signin' || path === '/signup') {
       return (
         <div>
