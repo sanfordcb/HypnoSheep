@@ -11,7 +11,6 @@ const ProjectBox = React.createClass({
       .get('/api/projects')
       .end((err, resp) => {
         if(!err) {
-          console.log(resp.body);
           this.setState({data: (resp.body)});
         } else {
           console.error(err);
