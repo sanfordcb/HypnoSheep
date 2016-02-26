@@ -1,9 +1,12 @@
 import React from 'react';
 import ModeEditIcon from 'material-ui/lib/svg-icons/editor/mode-edit';
+import SaveIcon from 'material-ui/lib/svg-icons/content/save';
 import IconButton from 'material-ui/lib/icon-button';
 
 import Editable from './Editable';
 
+// This Component wraps each child Component in an Editable Component and
+// adds buttons to toggle its "editable" state
 const EditableList = React.createClass({
   getInitialState() {
     const { url, description } = this.props.resource;
@@ -48,15 +51,21 @@ const EditableList = React.createClass({
     };
     return (
       <div>
-        <IconButton style={buttonStyle} onClick={this.toggleEdit} tooltip={editable ? 'cancel' : 'edit'} tooltipPosition="top-right">
+        <IconButton style={buttonStyle} onClick={this.toggleEdit} tooltip={editable ? 'Cancel' : 'Edit'} tooltipPosition="top-right">
           <ModeEditIcon />
         </IconButton>
+
         {children.map((child, i) =>
           <Editable key={i} editable={editable} content={child.content} callback={this.updateState}>
             {child}
           </Editable>
         )}
-        {editable ? <button onClick={this.sendState}> Save </button> : ''}
+
+        {editable ?
+          <IconButton style={buttonStyle} onClick={this.sendState} tooltip="Save" tooltipPosition="top-right">
+            <SaveIcon />
+          </IconButton>
+        : ''}
       </div>
     );
   }
