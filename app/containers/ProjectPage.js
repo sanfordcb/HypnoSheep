@@ -3,11 +3,11 @@ import marked from 'marked';
 import React from 'react';
 import { Link } from 'react-router';
 import request from 'superagent';
-import Resource from './Resource.js';
+import ResourceContainer from './ResourceContainer.js';
 
 
 // Container for resources associated with the selected project
-const ResourceBox = React.createClass({
+const ProjectPage = React.createClass({
   getInitialState() {
     return {
       data: []
@@ -27,7 +27,7 @@ const ResourceBox = React.createClass({
       });
   },
 
-  // When user adds a new resource, a POST request is submitted, and 
+  // When user adds a new resource, a POST request is submitted, and
   // the state is updated to add the new resource to the list
   handleResourceSubmit(resource) {
     console.log(this.props.params.id);
@@ -134,4 +134,4 @@ const ResourceList = React.createClass({
   }
 });
 
-export default ResourceBox;
+export default ProjectPage;
