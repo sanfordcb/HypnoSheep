@@ -4,17 +4,15 @@ import Resource from '../components/Resource';
 
 const ResourceContainer = React.createClass({
   updateResource(data) {
-    if (!data._id) {
-      console.error('id required');
-    }
-    request
-      .put(`/api/resources/${data._id}`)
-      .end((err, res) => {
-        if (err || !res.ok) {
-          return console.log('Error updating resource: ', err, res);
-        }
-        return console.log('Resource updated successfully: ', res);
-      });
+    console.log('data! ', data);
+    // request
+    //   .put(`/api/resources/${data._id}`)
+    //   .end((err, res) => {
+    //     if (err || !res.ok) {
+    //       return console.log('Error updating resource: ', err, res);
+    //     }
+    //     return console.log('Resource updated successfully: ', res);
+    //   });
   },
 
   render() {
