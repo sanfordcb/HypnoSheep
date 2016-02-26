@@ -29,21 +29,22 @@ const Resource = React.createClass({
 
     return (
       <Paper style ={style} zDepth={2} onClick={() => this.open(resource.url)}>
-        <EditableList
-          resource={resource}
-          callback={this.save}
-        >
-          <Paper zDepth={1}>
-            {resource.url}
+        <EditableList resource={resource} callback={this.save}>
+          <Paper
+            zDepth={1}
+            content={resource.url}
+            editKey={'url'}
+          >
+            URL: {resource.url}
           </Paper>
 
-          <div
+          <Paper
+            zDepth={1}
             content={resource.description}
             editKey={'description'}
           >
             Description: {resource.description}
-          </div>
-
+          </Paper>
         </EditableList>
 
         <button onClick={deleteResource}> delete </button>
