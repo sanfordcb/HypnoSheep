@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Divider from 'material-ui/lib/divider';
 import TextField from 'material-ui/lib/text-field';
 
 // NOTES:
@@ -9,12 +10,15 @@ const Editable = ({ editable, callback, children }) => {
   const { content, editKey } = children.props;
   if (editable) {
     return (
-      <TextField
-        defaultValue={content}
-        floatingLabelText={editKey}
-        underlineShow={false}
-        onChange={event => callback(event.target.value, editKey)}
-      />
+      <div>
+        <TextField
+          defaultValue={content}
+          floatingLabelText={editKey}
+          underlineShow={false}
+          onChange={event => callback(event.target.value, editKey)}
+        />
+        <Divider />
+      </div>
     );
   }
   return children;

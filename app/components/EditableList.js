@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Divider from 'material-ui/lib/divider';
 import IconButton from 'material-ui/lib/icon-button';
 import ModeEditIcon from 'material-ui/lib/svg-icons/editor/mode-edit';
 import SaveIcon from 'material-ui/lib/svg-icons/content/save';
@@ -69,12 +68,9 @@ const EditableList = React.createClass({
 
 
         {children.map((child, i) =>
-          <div>
-            <Editable key={i} editable={editable} content={child.content} callback={this.updateState}>
-              {child}
-            </Editable>
-            <Divider />
-          </div>
+          <Editable key={i} editable={editable} content={child.content} callback={this.updateState}>
+            {child}
+          </Editable>
         )}
 
       </div>
