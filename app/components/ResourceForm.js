@@ -1,3 +1,5 @@
+import React from 'react';
+
 const ResourceForm = React.createClass({
   getInitialState() {
     return {url: ''};

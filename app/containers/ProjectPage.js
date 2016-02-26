@@ -3,7 +3,6 @@ import marked from 'marked';
 import React from 'react';
 import { Link } from 'react-router';
 import request from 'superagent';
-import ResourceContainer from './ResourceContainer';
 import ResourceList from '../components/ResourceList';
 import ResourceForm from '../components/ResourceForm';
 
