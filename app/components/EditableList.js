@@ -1,7 +1,10 @@
 import React from 'react';
+
+import Divider from 'material-ui/lib/divider';
+import IconButton from 'material-ui/lib/icon-button';
 import ModeEditIcon from 'material-ui/lib/svg-icons/editor/mode-edit';
 import SaveIcon from 'material-ui/lib/svg-icons/content/save';
-import IconButton from 'material-ui/lib/icon-button';
+import ClearIcon from 'material-ui/lib/svg-icons/content/clear';
 
 import Editable from './Editable';
 
@@ -42,33 +45,38 @@ const EditableList = React.createClass({
 
   sendState() {
     this.toggleEdit();
-    this.props.callback(this.state.editData);
+    this.props.update(this.state.editData);
   },
 
   render() {
     const { children } = this.props;
     const { editable } = this.state;
     const buttonStyle = {
-      float: 'right',
-      display: 'inline'
+      float: 'right'
     };
     return (
       <div>
+
         <IconButton style={buttonStyle} onClick={this.toggleEdit} tooltip={editable ? 'Cancel' : 'Edit'} tooltipPosition="top-right">
-          <ModeEditIcon />
+          { editable ? <ClearIcon /> : <ModeEditIcon /> }
         </IconButton>
 
-        {children.map((child, i) =>
-          <Editable key={i} editable={editable} content={child.content} callback={this.updateState}>
-            {child}
-          </Editable>
-        )}
-
-        {editable ?
+        {editable &&
           <IconButton style={buttonStyle} onClick={this.sendState} tooltip="Save" tooltipPosition="top-right">
             <SaveIcon />
           </IconButton>
-        : ''}
+        }
+
+
+        {children.map((child, i) =>
+          <div>
+            <Editable key={i} editable={editable} content={child.content} callback={this.updateState}>
+              {child}
+            </Editable>
+            <Divider />
+          </div>
+        )}
+
       </div>
     );
   }

@@ -32,7 +32,7 @@ const Resource = React.createClass({
     return (
       <Paper style ={style} zDepth={2} onClick={() => this.open(resource.url)}>
 
-        <EditableList resource={resource} callback={this.save}>
+        <EditableList resource={resource} update={this.save}>
 
           <Paper
             zDepth={1}
@@ -52,7 +52,11 @@ const Resource = React.createClass({
 
         </EditableList>
 
-        <IconButton onClick={deleteResource} tooltip="Delete" tooltipPosition="bottom-left">
+        <IconButton
+          onClick={deleteResource}
+          tooltip="Delete"
+          tooltipPosition="bottom-left"
+        >
           <DeleteIcon />
         </IconButton>
 
