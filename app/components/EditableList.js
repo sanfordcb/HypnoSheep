@@ -6,7 +6,10 @@ import IconButton from 'material-ui/lib/icon-button';
 import Editable from './Editable';
 
 // This Component wraps each child Component in an Editable Component and
-// adds buttons to toggle its "editable" state
+//   adds buttons to toggle its "editable" state
+
+// TODO: need a way to abstract what keys are available in the
+//   state's `editData` so we can specify that externally
 const EditableList = React.createClass({
   getInitialState() {
     const { url, description } = this.props.resource;
