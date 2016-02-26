@@ -3,24 +3,31 @@ import request from 'superagent';
 import Resource from '../components/Resource';
 
 const ResourceContainer = React.createClass({
+  getInitialState() {
+    return {
+      resource: Object.assign({}, this.props.resource)
+    };
+  },
+
   updateResource(data) {
-    console.log('data! ', data);
-    // request
-    //   .put(`/api/resources/${data._id}`)
-    //   .end((err, res) => {
-    //     if (err || !res.ok) {
-    //       return console.log('Error updating resource: ', err, res);
-    //     }
-    //     return console.log('Resource updated successfully: ', res);
-    //   });
+    request
+      .put(`/api/resources/${data._id}`)
+      .send(data)
+      .end((err, res) => {
+        if (err || !res.ok) {
+          return console.log('Error updating resource: ', err, res);
+        }
+        this.setState({
+          resource: data
+        });
+      });
   },
 
   render() {
-    const { resource, deleteResource } = this.props;
-    resource.description = 'awesome resource description';
+    const { deleteResource } = this.props;
     return (
       <Resource
-        resource={resource}
+        resource={this.state.resource}
         deleteResource={deleteResource}
         updateResource={this.updateResource}
       />

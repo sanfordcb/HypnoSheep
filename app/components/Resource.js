@@ -21,6 +21,7 @@ const Resource = React.createClass({
     this.props.updateResource(
       Object.assign({}, this.props.resource, data)
     );
+    this.toggleEdit();
   },
 
   render() {
@@ -35,7 +36,14 @@ const Resource = React.createClass({
           callback={this.save}
         >
           <a content={resource.url} editKey={'url'} href={resource.url}>{resource.url}</a>
-          <div content={resource.description} editKey={'description'}>{resource.description}</div>
+
+          <div
+            content={resource.description}
+            editKey={'description'}
+          >
+            Description: {resource.description}
+          </div>
+
         </EditableList>
 
         {editable ? '' : <button onClick={deleteResource}> delete </button>}
