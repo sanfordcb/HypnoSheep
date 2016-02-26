@@ -16,7 +16,6 @@ const ProjectPage = React.createClass({
       .get(`/api/resources/${this.props.params.id}`)
       .end((err, resp) => {
         if(!err) {
-          console.log(resp.body);
           this.setState({data: (resp.body)});
         } else {
           console.error(err);

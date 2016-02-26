@@ -43,7 +43,6 @@ var SignIn = React.createClass({
   },
 
   loginUser: function(userId, jwt) {
-    console.log(userId);
     browserHistory.push('/projects/' + userId);
     localStorage.setItem('jwt', jwt);
     console.log(window);
