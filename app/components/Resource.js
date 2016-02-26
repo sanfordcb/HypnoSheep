@@ -26,6 +26,12 @@ const Resource = React.createClass({
     this.toggleEdit();
   },
 
+  open(url) {
+    // TODO: this is not quite working as intended
+    // window.open(url);
+    console.log('opening url...');
+  },
+
   render() {
     const { resource, deleteResource } = this.props;
     const { editable } = this.state;
@@ -35,7 +41,7 @@ const Resource = React.createClass({
     };
 
     return (
-      <Paper style ={style} zDepth={2}>
+      <Paper style ={style} zDepth={2} onClick={() => this.open(resource.url)}>
         <EditableList
           editable={editable}
           toggle={this.toggleEdit}
