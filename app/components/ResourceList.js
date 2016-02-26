@@ -5,32 +5,31 @@ import ResourceContainer from '../containers/ResourceContainer';
 const ResourceList = React.createClass({
   // render returns an array of Resource components by mapping the resource objects
   // stored in this.props.data
+  deleteResource(id) {
+    request
+      .delete(`/api/resources/${id}`)
+      .end((err, res) => {
+        if (err || !res.ok) {
+          console.log(err);
+        } else {
+          this.props.getResources();
+        }
+      });
+  },
+
   render() {
-    const { data, getResources } = this.props;
-
-    const resourceNodes = data.map((resource) => {
-      const deleteResource = () => {
-        request
-          .delete(`/api/resources/${resource._id}`)
-          .end((err, res) => {
-            if (err || !res.ok) {
-              console.log(err);
-            } else {
-              getResources();
-            }
-          });
-      };
-
-      return (
-        <ResourceContainer key={resource._id} resource={resource} deleteResource={deleteResource}>
-          {resource.url}
-        </ResourceContainer>
-      );
-    });
+    const { data } = this.props;
 
     return (
       <div className="resourceList">
-        {resourceNodes}
+        {data.map(resource =>
+          <ResourceContainer
+            key={resource._id}
+            resource={resource}
+            deleteResource={() =>
+              this.deleteResource(resource._id)}
+          />
+        )}
       </div>
     );
   }
