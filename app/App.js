@@ -18,13 +18,13 @@ const App = React.createClass({
             {this.props.children}
           </div>
         );
-      } else {
-      return(
-        <div>
-          <Header user={this.props.location.query.user} />
-          {this.props.children}
-        </div>
-      );
+    } else {
+        return(
+          <div>
+            <Header user={this.props.location.query.user} />
+            {this.props.children}
+          </div>
+        );
     }
   }
 });
