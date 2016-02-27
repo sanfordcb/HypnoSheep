@@ -1,5 +1,6 @@
 import React from 'react';
 import request from 'superagent';
+import { browserHistory } from 'react-router';
 
 const SignupForm = React.createClass({
   getInitialState() {
@@ -57,7 +58,8 @@ const SignupForm = React.createClass({
         } else if (res.text === 'user already exists') {
           console.log(res.text);
         } else {
-          console.log('Success!')
+          console.log('Success!');
+          browserHistory.push('/signin');
         }});
 
     //clear forms
