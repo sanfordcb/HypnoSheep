@@ -16,7 +16,6 @@ const ProjectPage = React.createClass({
       .get(`/api/resources/${this.props.params.id}`)
       .end((err, resp) => {
         if(!err) {
-          console.log(resp.body);
           this.setState({data: (resp.body)});
         } else {
           console.error(err);
@@ -27,7 +26,6 @@ const ProjectPage = React.createClass({
   // When user adds a new resource, a POST request is submitted, and
   // the state is updated to add the new resource to the list
   handleResourceSubmit(resource) {
-    console.log(this.props.params.id);
     resource.projectId = this.props.params.id;
     request
       .post('/api/resources')

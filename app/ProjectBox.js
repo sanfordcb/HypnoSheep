@@ -10,13 +10,14 @@ const ProjectBox = React.createClass({
   },
 
   componentDidMount() {
-    // initiates get request to set this.state.data to whatever is stored in the database
+    // initiates get request to set this.state.data with any projects created
+    // with this user id
     this.loadProjectsFromServer();
   },
 
   loadProjectsFromServer() {
     request
-      .get('/api/projects')
+      .get(`/api/projects/${this.props.params.id}`)
       .end((err, resp) => {
         if (!err) {
           this.setState({ data: (resp.body) });
@@ -30,8 +31,9 @@ const ProjectBox = React.createClass({
   // is added to the list after confirmation from the server that it
   // was successfully created.
   handleProjectSubmit(project) {
+    project.userId = this.props.params.id;
     request
-      .post('api/projects')
+      .post('/api/projects')
       .send(project)
       .end((err, resp) => {
         if (!err) {
@@ -95,8 +97,8 @@ const ProjectList = React.createClass({
       return <div>Loading Projects...</div>
     }
     const { data, loadProjectsFromServer } = this.props;
-
-    const projectNodes = data.map((project) => {
+    
+      const projectNodes = data.map((project) => {
       const deleteProject = () => {
         request
           .delete(`/api/projects/${project._id}`)
@@ -123,5 +125,7 @@ const ProjectList = React.createClass({
     );
   }
 });
+    
+    
 
 export default ProjectBox;
