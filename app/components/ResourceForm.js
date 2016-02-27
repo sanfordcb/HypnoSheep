@@ -1,12 +1,17 @@
 import React from 'react';
 
+import TextField from 'material-ui/lib/text-field';
+
 const ResourceForm = React.createClass({
+
   getInitialState() {
     return {url: ''};
   },
+
   handleResourceChange(e) {
     this.setState({url: e.target.value});
   },
+
   handleSubmit(e) {
     e.preventDefault();
     const resource = this.state.url.trim();
@@ -16,12 +21,13 @@ const ResourceForm = React.createClass({
     this.props.onResourceSubmit({url: resource});
     this.setState({url: ''});
   },
+
   render() {
     return (
       <form className="resourceForm" onSubmit={this.handleSubmit}>
-        <input
+        <TextField
           type="resource"
-          placeholder="Say something..."
+          placeholder="Add a Resource"
           value={this.state.url}
           onChange={this.handleResourceChange}
         />

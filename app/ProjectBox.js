@@ -38,24 +38,25 @@ const ProjectBox = React.createClass({
         }
       });
     },
-    
+
   componentDidMount() {
     //initiates get request to set this.state.data to whatever is stored in the database
-    if(localStorage.jwt){
-      request.post('auth/signin').send(localStorage.jwt).end((err, res) => {
-        if(err || !res.ok){
-          console.log(err);
-        } else if(res.text === 'not authorized' || res.text === 'Token Expired'){
-          console.log(res.text);
-          browserHistory.push('/signin');
-        } else {
-          this.loadProjectsFromServer();
-        }
-      });
-    } else {
-      console.log('not authorized');
-      browserHistory.push('/signin');
-    }
+    this.loadProjectsFromServer();
+    // if(localStorage.jwt){
+    //   request.post('auth/signin').send(localStorage.jwt).end((err, res) => {
+    //     if(err || !res.ok){
+    //       console.log(err);
+    //     } else if(res.text === 'not authorized' || res.text === 'Token Expired'){
+    //       console.log(res.text);
+    //       browserHistory.push('/signin');
+    //     } else {
+    //       this.loadProjectsFromServer();
+    //     }
+    //   });
+    // } else {
+    //   console.log('not authorized');
+    //   browserHistory.push('/signin');
+    // }
   },
 
   render() {
@@ -111,7 +112,7 @@ const ProjectList = React.createClass({
       return <div>You haven't added any projects yet.</div>
     }
     const { data, loadProjectsFromServer } = this.props;
-    
+
       const projectNodes = data.map((project) => {
       const deleteProject = () => {
         request
@@ -139,7 +140,7 @@ const ProjectList = React.createClass({
     );
   }
 });
-    
-    
+
+
 
 export default ProjectBox;
