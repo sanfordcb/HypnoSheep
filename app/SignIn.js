@@ -28,7 +28,7 @@ const SignIn = React.createClass({
           } else {
             browserHistory.push('/projects');
           }
-        });
+      });
     }
   },
 
