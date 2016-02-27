@@ -13,6 +13,9 @@ module.exports = {
   // Get all resources for a specific project
   getResourcesByProject: function(req, res) {
     var projectId = req.params.projectId;
+    if (typeof projectId !== 'number') {
+      return res.end('Invalid Request.');
+    }
     Project.findOne({_id: projectId})
     .then(function(project) {
       if (!project) {
@@ -42,7 +45,7 @@ module.exports = {
     })
     .catch(function(err) {
       console.log(err);
-      res.end(err);
+      res.end('Error adding resource.');
     })
   },
 
