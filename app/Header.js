@@ -29,6 +29,8 @@ const Home = React.createClass({
 const SignOut = React.createClass({
   handleSignOut() {
     console.log("You are now signed out");
+    localStorage.clear();
+    console.log(window);
   },
   render() {
     return (
