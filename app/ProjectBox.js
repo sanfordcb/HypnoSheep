@@ -10,12 +10,6 @@ const ProjectBox = React.createClass({
     return { projectId: 0, data: [] };
   },
 
-  componentDidMount() {
-    // initiates get request to set this.state.data with any projects created
-    // with this user id
-    this.loadProjectsFromServer();
-  },
-
   loadProjectsFromServer() {
     request
       .get(`/api/projects/${this.props.params.id}`)
@@ -43,7 +37,9 @@ const ProjectBox = React.createClass({
           console.error(err);
         }
       });
-  componentDidMount: function() {
+    },
+    
+  componentDidMount() {
     //initiates get request to set this.state.data to whatever is stored in the database
     if(localStorage.jwt){
       request.post('auth/signin').send(localStorage.jwt/*, localStorage.user*/).end((err, res) => {
