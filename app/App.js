@@ -3,6 +3,9 @@ import ReactRouter from 'react-router';
 import Header from './Header';
 
 const App = React.createClass({
+  getUser() {
+    return this.props.location.query.user;
+  },
   render() {
     const path = this.props.location.pathname;
     if(path === '/' || path === '/signin' || path === '/signup') {
@@ -14,7 +17,7 @@ const App = React.createClass({
     } else {
       return(
         <div>
-          <Header />
+          <Header user={this.props.location.query.user} />
           {this.props.children}
         </div>
       );

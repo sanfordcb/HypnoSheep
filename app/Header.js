@@ -6,9 +6,10 @@ import { Router, Route, Link } from 'react-router';
 // Space rendered between Home and SignOut until CSS applied
 const Header = React.createClass({
   render() {
+    console.log(this.props.children);
     return (
       <nav className='app-header'>
-        <Home /> {'  '}
+        <Home user={this.props.user} /> {'  '}
         <SignOut />
       </nav>
     );
@@ -19,7 +20,7 @@ const Header = React.createClass({
 const Home = React.createClass({
   render() {
     return (
-      <Link to="/projects">Home</Link>
+      <Link to={`/projects/${this.props.user}`}>Home</Link>
       );
   }
 });
