@@ -1,14 +1,8 @@
-//import React from 'react';
-// import request from 'superagent';
-// import Auth from './AuthService';
+import React from 'react';
+import request from 'superagent';
 import { browserHistory } from 'react-router'
-var React = require('react');
-var request = require('superagent');
-//var LoginAction = require('./LoginActions');
-//var Auth = require('./AuthService');
-//var path = require('./index');
 
-var SignIn = React.createClass({
+const SignIn = React.createClass({
   getInitialState: function() {
     return {
       username: '',
@@ -17,25 +11,38 @@ var SignIn = React.createClass({
   },
 
   componentDidMount: function() {
-    //check local storage for jwt
-    //window.sessionStorage.token
+    //checks local storage (under window) for jwt token. if token exists, sends
+    //request to server to check if token is valid. if so, routes user to
+    //projects page
+    if(localStorage.jwt){
+      request.post('auth/signin').send(localStorage.jwt).end((err, res) => {
+        if(err || !res.ok){
+          console.log(err);
+        } else if(res.text === 'not authorized' || res.text === 'Token Expired'){
+          console.log(res.text);
+        } else {
+          browserHistory.push('/projects');
+        }
+      });
+    }
   },
 
   auth: function(username, password) {
-    var user = {
+    //if no token is found, user must manually log in. this sends a request
+    //to our server which will check the database for the username and password.
+    //this request is only initiated after user submits their info
+    let user = {
       username: username,
       password: password
     };
     request.post('auth/signin').send(user).end((err, res) => {
       if (err || !res.ok) {
         console.log(err);
-      } else if ( res.text === 'user not found' || res.text === 'passwords dont match'){
+      } else if (res.text === 'user not found' || res.text === 'passwords dont match'){
         console.log(res.text);
       } else {
-        var userId = res.body.user._id;
-        var jwt = JSON.parse(res.text);
-        console.log(res);
-        console.log(Date.now());
+        let userId = res.body.user._id;
+        let jwt = JSON.parse(res.text);
         this.loginUser(userId, jwt.token);
         return true;
       }
@@ -43,9 +50,8 @@ var SignIn = React.createClass({
   },
 
   loginUser: function(userId, jwt) {
-    browserHistory.push('/projects/' + userId);
     localStorage.setItem('jwt', jwt);
-    console.log(window);
+    browserHistory.push('/projects/' + userId);
   },
 
   handleUserSubmit: function(e) {
@@ -97,4 +103,4 @@ var SignIn = React.createClass({
   }
 });
 
-module.exports = SignIn;
+export default SignIn;

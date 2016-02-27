@@ -28,9 +28,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-app.use('/api', routes);
-//app.use('/api', jwtAuth, routes);
-app.use('/auth', userRoutes);
+app.use('/api', jwtAuth, routes);
+app.use('/auth', jwtAuth, userRoutes);
 
 if (isDeveloping) {
   var compiler = webpack(config);

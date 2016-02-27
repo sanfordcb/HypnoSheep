@@ -1,6 +1,7 @@
 import React from 'react';
 import Project from './Project';
 import request from 'superagent';
+import { browserHistory } from 'react-router';
 
 // Container for /projects view and functionality
 const ProjectBox = React.createClass({
@@ -42,6 +43,27 @@ const ProjectBox = React.createClass({
           console.error(err);
         }
       });
+  componentDidMount: function() {
+    //initiates get request to set this.state.data to whatever is stored in the database
+    if(localStorage.jwt){
+      request.post('auth/signin').send(localStorage.jwt/*, localStorage.user*/).end((err, res) => {
+        if(err || !res.ok){
+          console.log(err);
+          browserHistory.push('/signin');
+        } else if(res.text === 'not authorized' || res.text === 'Token Expired'){
+          console.log(res.text);
+          browserHistory.push('/signin');
+        } else {
+          console.log('stored ', localStorage.jwt);
+          console.log('user', localStorage.user);
+          console.log('new ', res);
+          this.loadProjectsFromServer();
+        }
+      });
+    } else {
+      console.log('not authorized');
+      browserHistory.push('/signin');
+    }
   },
 
   render() {
