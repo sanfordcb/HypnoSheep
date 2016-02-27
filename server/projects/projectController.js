@@ -15,9 +15,6 @@ module.exports = {
 
   getProjectsByUser: function(req, res) {
     var userId = req.params.userId;
-    if (typeof userId !== 'number') {
-      return res.end('Invalid Request.');
-    }
     User.findOne({_id: userId})
     .then(function(user) {
       if(!user) {
@@ -27,7 +24,7 @@ module.exports = {
       .then(function(projects) {
         res.json(projects);
       })
-     }) 
+     })
     .catch(function(err){
       console.log(err);
       return res.end("Error getting projects");
