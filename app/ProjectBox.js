@@ -32,13 +32,11 @@ const ProjectBox = React.createClass({
   // was successfully created.
   handleProjectSubmit(project) {
     project.userId = this.props.params.id;
-    console.log(project.userId);
     request
       .post('/api/projects')
       .send(project)
       .end((err, resp) => {
         if (!err) {
-          console.log(resp.body);
           this.setState({ data: this.state.data.concat(resp.body) });
         } else {
           console.error(err);
