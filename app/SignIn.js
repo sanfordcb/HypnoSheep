@@ -26,7 +26,7 @@ const SignIn = React.createClass({
           } else if(res.text === 'not authorized' || res.text === 'Token Expired'){
             console.log(res.text);
           } else {
-            browserHistory.push('/projects');
+            browserHistory.push('/projects/' + localStorage.userId);
           }
       });
     }
@@ -46,16 +46,11 @@ const SignIn = React.createClass({
       .end((err, res) => {
         if (err || !res.ok) {
           console.log(err);
-          console.log('here1');
-          console.log(res);
-          console.log(localStorage);
         } else if (res.text === 'user not found' || res.text === 'passwords dont match'){
           console.log(res);
-          console.log('here2');
         } else {
           let userId = res.body.user._id;
           let jwt = JSON.parse(res.text);
-          console.log('here3');
           this.loginUser(userId, jwt.token);
           return true;
         }
@@ -64,6 +59,7 @@ const SignIn = React.createClass({
 
   loginUser(userId, jwt) {
     localStorage.setItem('jwt', jwt);
+    localStorage.setItem('userId', userId);
     browserHistory.push('/projects/' + userId);
   },
 
