@@ -8,7 +8,7 @@ const Header = React.createClass({
   render() {
     return (
       <nav className='app-header'>
-        <Home /> {'  '}
+        <Home user={this.props.user} /> {'  '}
         <SignOut />
       </nav>
     );
@@ -19,7 +19,7 @@ const Header = React.createClass({
 const Home = React.createClass({
   render() {
     return (
-      <Link to="/projects">Home</Link>
+      <Link to={`/projects/${this.props.user}`}>Home</Link>
       );
   }
 });

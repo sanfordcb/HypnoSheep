@@ -11,10 +11,17 @@ const App = React.createClass({
           {this.props.children}
         </div>
       )
-    } else {
+    } else if(!this.props.location.query.user) {
+        return(
+          <div>
+            <Header user={this.props.params.id} />
+            {this.props.children}
+          </div>
+        );
+      } else {
       return(
         <div>
-          <Header />
+          <Header user={this.props.location.query.user} />
           {this.props.children}
         </div>
       );
