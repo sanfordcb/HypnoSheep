@@ -6,7 +6,6 @@ import { Router, Route, Link } from 'react-router';
 // Space rendered between Home and SignOut until CSS applied
 const Header = React.createClass({
   render() {
-    console.log(this.props.children);
     return (
       <nav className='app-header'>
         <Home user={this.props.user} /> {'  '}
