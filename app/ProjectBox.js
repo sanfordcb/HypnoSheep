@@ -94,7 +94,7 @@ const ProjectList = React.createClass({
     // render returns an array of Project components by mapping the project objects
     // stored in this.props.data
     if (this.props.data.length === 0) {
-      return <div>Loading Projects...</div>
+      return <div>You haven't added any projects yet.</div>
     }
     const { data, loadProjectsFromServer } = this.props;
     
