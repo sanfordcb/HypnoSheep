@@ -7,13 +7,17 @@ module.exports = {
     .then(function(projects) {
       res.json(projects);
     })
-    .catch(function(){
-      res.end("Error getting projects.")
+    .catch(function(err){
+      console.log(err);
+      return res.end("Error getting projects.");
     });
   },
 
   getProjectsByUser: function(req, res) {
     var userId = req.params.userId;
+    if (typeof userId !== 'number') {
+      return res.end('Invalid Request.');
+    }
     User.findOne({_id: userId})
     .then(function(user) {
       if(!user) {
@@ -24,9 +28,9 @@ module.exports = {
         res.json(projects);
       })
      }) 
-    .catch(function(){
+    .catch(function(err){
       console.log(err);
-      res.end(err);
+      return res.end("Error getting projects");
     });
   },
 
@@ -44,9 +48,9 @@ module.exports = {
     })
     .catch(function(err){
       console.log(err);
-      res.end(err);
+      return res.end('Error adding project');
     });
-  }, 
+  },
 
   deleteProject: function(req, res) {
     Project.remove({
@@ -56,8 +60,9 @@ module.exports = {
       res.end("Project deleted.");
       console.log("Project deleted");
     })
-    .catch(function(){
-      res.end("Error deleting object.")
+    .catch(function(err){
+      console.log(err);
+      res.end("Error deleting object.");
     });
   }
 
