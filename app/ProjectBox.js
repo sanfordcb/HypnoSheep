@@ -1,18 +1,13 @@
 import React from 'react';
 import Project from './Project';
 import request from 'superagent';
+import { browserHistory } from 'react-router';
 
 // Container for /projects view and functionality
 const ProjectBox = React.createClass({
   getInitialState() {
     // sets this.state.data to blank
     return { projectId: 0, data: [] };
-  },
-
-  componentDidMount() {
-    // initiates get request to set this.state.data with any projects created
-    // with this user id
-    this.loadProjectsFromServer();
   },
 
   loadProjectsFromServer() {
@@ -42,6 +37,25 @@ const ProjectBox = React.createClass({
           console.error(err);
         }
       });
+    },
+    
+  componentDidMount() {
+    //initiates get request to set this.state.data to whatever is stored in the database
+    if(localStorage.jwt){
+      request.post('auth/signin').send(localStorage.jwt).end((err, res) => {
+        if(err || !res.ok){
+          console.log(err);
+        } else if(res.text === 'not authorized' || res.text === 'Token Expired'){
+          console.log(res.text);
+          browserHistory.push('/signin');
+        } else {
+          this.loadProjectsFromServer();
+        }
+      });
+    } else {
+      console.log('not authorized');
+      browserHistory.push('/signin');
+    }
   },
 
   render() {
