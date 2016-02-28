@@ -6,6 +6,9 @@ import LeftNav from 'material-ui/lib/left-nav';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
 const Header = React.createClass({
+  getInitialState() {
+    return {open: false};
+  },
   _toggle(e) {
     e.preventDefault();
     this.refs.LeftNav.toggle();
@@ -27,6 +30,7 @@ const Header = React.createClass({
           docked={false}
           handleHome={this.handleMyProjects}
           handleSignOut={this.handleSignOut}
+          open={false}
         >
           <MenuItem onTouchTap={this.handleMyProjects}>My Projects</MenuItem>
           <MenuItem onTouchTap={this.handleSignOut}>Sign Out</MenuItem>
