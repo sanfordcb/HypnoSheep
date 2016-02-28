@@ -15,7 +15,7 @@ const App = React.createClass({
         <Header params={this.props.params} />
         {this.props.children}
       </div>
-    );
+    )
   }
 });
 
