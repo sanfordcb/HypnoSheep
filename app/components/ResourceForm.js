@@ -30,6 +30,7 @@ const ResourceForm = React.createClass({
           placeholder="Add a Resource"
           value={this.state.url}
           onChange={this.handleResourceChange}
+          style={{margin: 10}}
         />
         <input type="submit" value="Post" />
       </form>
