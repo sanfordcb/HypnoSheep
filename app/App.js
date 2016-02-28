@@ -3,27 +3,12 @@ import Header from './Header';
 
 const App = React.createClass({
   render() {
-    const path = this.props.location.pathname;
-    if (path === '/' || path === '/signin' || path === '/signup') {
-      return (
-        <div>
-          {this.props.children}
-        </div>
-      );
-    } else if (!this.props.location.query.user) {
-      return (
-        <div>
-          <Header user={this.props.params.id} />
-          {this.props.children}
-        </div>
-      );
-    }
-    return (
+    return(
       <div>
-        <Header user={this.props.location.query.user} />
+        <Header />
         {this.props.children}
       </div>
-    );
+    )
   }
 });
 
