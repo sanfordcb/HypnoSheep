@@ -3,6 +3,7 @@ import request from 'superagent';
 import { browserHistory } from 'react-router';
 import RaisedButton from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
+import Paper from 'material-ui/lib/paper';
 
 const SignIn = React.createClass({
   getInitialState() {
@@ -59,14 +60,25 @@ const SignIn = React.createClass({
   },
 
   render() {
-    const style = {
+    const buttonStyle = {
       margin: 12,
     };
+    const backgroundStyle = {
+      "text-align": "center",
+    };
+    const paperStyle = {
+      height: '100%',
+      width: '15%',
+      margin: 20,
+      padding: 20,
+      textAlign: 'center',
+      display: 'inline-block',
+      float: 'center'
+    };
     return (
-      <div>
+      <div style={backgroundStyle}>
         <h3>Sign In</h3>
         <form className="userForm">
-        {/* <Link to="/projects"></Link> */}
           <TextField
             hintText="Username"
             type="username"
@@ -83,19 +95,25 @@ const SignIn = React.createClass({
           <RaisedButton
             label="Sign In"
             secondary={true}
-            style={style}
+            style={buttonStyle}
             type="submit"
             onClick={this.handleUserSubmit}
           />
         <RaisedButton
           label="Sign Up"
           secondary={true}
-          style={style}
+          style={buttonStyle}
           type="submit"
           onClick={this.linkToSignUp}
         />
         </form>
-      </div>
+        <Paper style={paperStyle} zDepth={2}>
+          <h2 style={{ fontSize: 40 }}>Where</h2>
+          <h2 style={{ fontSize: 40 }}>Was</h2>
+          <h2 style={{ fontSize: 40 }}>I</h2>
+          <h2 style={{ fontSize: 40 }}>?</h2>
+        </Paper>
+        </div>
     );
   }
 });
