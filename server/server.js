@@ -20,11 +20,11 @@ var db = require('./utils/dbConfig.js');
 var routes = require('./routes.js');
 
 var isDeveloping = process.env.NODE_ENV !== 'production';
-var port = isDeveloping ? 8080: process.env.PORT;
+var port = isDeveloping ? 8080 : process.env.PORT;
 
 var app = express();
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
@@ -54,7 +54,7 @@ if (isDeveloping) {
     res.end();
   });
 } else {
-  app.use(express.static(__dirname + '../dist'));
+  app.use(express.static(path.join(__dirname, '../dist')));
 
   // This redirects any GET requests that aren't for '/' or our above-mentioned
   // routes to the home-page, letting the router on our SPA front-end handle it.
@@ -65,6 +65,6 @@ if (isDeveloping) {
   });
 }
 
-app.listen(port, function(){
+app.listen(port, function () {
   console.log('Listening on port', port);
 });

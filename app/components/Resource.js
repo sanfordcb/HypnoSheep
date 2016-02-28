@@ -1,7 +1,5 @@
 import React from 'react';
-
 import EditableList from './EditableList';
-
 import Paper from 'material-ui/lib/paper';
 
 const Resource = React.createClass({

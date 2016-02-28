@@ -5,11 +5,11 @@ import TextField from 'material-ui/lib/text-field';
 const ResourceForm = React.createClass({
 
   getInitialState() {
-    return {url: ''};
+    return { url: '' };
   },
 
   handleResourceChange(e) {
-    this.setState({url: e.target.value});
+    this.setState({ url: e.target.value });
   },
 
   handleSubmit(e) {
@@ -18,8 +18,8 @@ const ResourceForm = React.createClass({
     if (!resource) {
       return;
     }
-    this.props.onResourceSubmit({url: resource});
-    this.setState({url: ''});
+    this.props.onResourceSubmit({ url: resource });
+    this.setState({ url: '' });
   },
 
   render() {
@@ -30,7 +30,7 @@ const ResourceForm = React.createClass({
           placeholder="Add a Resource"
           value={this.state.url}
           onChange={this.handleResourceChange}
-          style={{margin: 10}}
+          style={{ margin: 10 }}
         />
         <input type="submit" value="Post" />
       </form>

@@ -13,14 +13,13 @@ const SignupForm = React.createClass({
   },
 
   onSignupSubmit() {
-    
-    //format data
-    var user = {
+    // format data
+    const user = {
       username: this.state.username,
       password: this.state.password,
     };
 
-    //send post request with data
+    // send post request with data
     request
       .post('auth/signup')
       .send(user)
@@ -34,9 +33,9 @@ const SignupForm = React.createClass({
           browserHistory.push('/signin');
         }});
 
-    //clear forms
-    this.setState({username: '', password: ''});
-  }, 
+    // clear forms
+    this.setState({ username: '', password: '' });
+  },
 
   render() {
     const style = {
@@ -45,26 +44,23 @@ const SignupForm = React.createClass({
     return (
       <div>
         <h3>Sign Up</h3>
-        <form 
-          className="signupForm" 
-          onSubmit={(event) => event.preventDefault()}>
-          
-          <label>Username: </label>
+        <form
+          className="signupForm"
+          onSubmit={(event) => event.preventDefault()}
+        >
           <TextField
-            placeholder="username"
+            hintText="Username"
             value={this.state.username}
-            onChange={(event) => this.setState({username: event.target.value})}
-          />
-          <br/>
-          <label>Password: </label>
-          <TextField 
-            placeholder="password"
+            onChange={(event) => this.setState({ username: event.target.value })}
+          /><br />
+          <TextField
+            hintText="Password"
+            type="password"
             value={this.state.password}
-            onChange={(event) => this.setState({password: event.target.value})}
-          />
-          <br/>
-          <RaisedButton 
-            type="submit" 
+            onChange={(event) => this.setState({ password: event.target.value })}
+          /><br />
+          <RaisedButton
+            type="submit"
             label="Sign Up"
             secondary={true}
             onClick={this.onSignupSubmit}
