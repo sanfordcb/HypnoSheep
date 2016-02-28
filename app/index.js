@@ -7,7 +7,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 // Project
 import LandingPage from './LandingPage';
 import App from './App';
-import ProjectBox from './ProjectBox';
+import ProjectListPage from './containers/ProjectListPage';
 import ProjectPage from './containers/ProjectPage';
 import SignupForm from './SignupForm';
 import SignIn from './SignIn';
@@ -24,7 +24,7 @@ const routes = (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={LandingPage} />
-      <Route path="projects/:id" component={ProjectBox} />
+      <Route path="projects/:id" component={ProjectListPage} />
       <Route path="resources/:id" component={ProjectPage} />
       <Route path="signup" component={SignupForm} />
       <Route path="signin" component={SignIn} />

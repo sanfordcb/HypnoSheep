@@ -1,16 +1,16 @@
 import React from 'react';
 import request from 'superagent';
-import ProjectContainer from '../containers/ProjectContainer';
+import Project from './Project';
 
 const ProjectList = React.createClass({
   deleteProject(id) {
     request
       .delete(`api/projects/${id}`)
       .end((err, res) => {
-        if (err, res) => {
+        if (err || !res.ok) {
           console.log(err);
         } else {
-          loadProjectsFromServer();
+          this.props.loadProjectsFromServer();
         }
       });
   },

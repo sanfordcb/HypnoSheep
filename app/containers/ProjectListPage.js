@@ -3,7 +3,7 @@ import request from 'superagent';
 import ProjectList from '../components/ProjectList';
 import ProjectForm from '../components/ProjectForm';
 
-const ProjectBox = React.createClass({
+const ProjectListPage = React.createClass({
   getInitialState() {
     // sets this.state.data to blank
     return { projectId: 0, data: [] };
