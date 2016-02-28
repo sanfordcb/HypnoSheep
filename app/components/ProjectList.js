@@ -6,6 +6,7 @@ const ProjectList = React.createClass({
   deleteProject(id) {
     request
       .delete(`api/projects/${id}`)
+      .set('x-access-token', window.localStorage.jwt)
       .end((err, res) => {
         if (err || !res.ok) {
           console.log(err);

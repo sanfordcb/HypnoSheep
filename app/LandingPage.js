@@ -12,7 +12,7 @@ import { browserHistory } from 'react-router';
 const LandingPage = React.createClass({
   render() {
     return (
-      <div style={{padding: 80, height: '100%', minHeight: '100%'}}>
+      <div style={{ padding: 80, height: '100%', minHeight: '100%' }}>
         <HomeImage />
         <GetStarted />
       </div>

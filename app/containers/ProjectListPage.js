@@ -33,6 +33,7 @@ const ProjectListPage = React.createClass({
   loadProjectsFromServer() {
     request
       .get(`/api/projects/${this.props.params.id}`)
+      .set('x-access-token', window.localStorage.jwt)
       .end((err, resp) => {
         if (!err) {
           this.setState({ data: (resp.body) });
@@ -49,6 +50,7 @@ const ProjectListPage = React.createClass({
     project.userId = this.props.params.id;
     request
       .post('/api/projects')
+      .set('x-access-token', window.localStorage.jwt)
       .send(project)
       .end((err, resp) => {
         if (!err) {
