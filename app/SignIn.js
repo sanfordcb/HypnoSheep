@@ -12,25 +12,18 @@ const SignIn = React.createClass({
     }
   },
 
+/*  
   componentDidMount() {
     //checks local storage (under window) for jwt token. if token exists, sends
     //request to server to check if token is valid. if so, routes user to
     //projects page
     if(localStorage.jwt){
-      request
-        .post('auth/signin')
-        .send(localStorage.jwt)
-        .end((err, res) => {
-          if(err || !res.ok){
-            console.log(err);
-          } else if(res.text === 'not authorized' || res.text === 'Token Expired'){
-            console.log(res.text);
-          } else {
-            browserHistory.push('/projects/' + localStorage.userId);
+      browserHistory.push('/projects/' + localStorage.userId);
           }
       });
     }
   },
+  */
 
   auth(username, password) {
     //if no token is found, user must manually log in. this sends a request
@@ -62,18 +55,15 @@ const SignIn = React.createClass({
     localStorage.setItem('userId', userId);
     browserHistory.push('/projects/' + userId);
   },
-
+ 
   linkToSignUp() {
     browserHistory.push('/signup/');
   },
 
+
   handleUserSubmit(e) {
     e.preventDefault();
-
-    this.auth(this.state.username, this.state.password)
-      .catch(err => {
-          console.log('error! ', err);
-        });
+    this.auth(this.state.username, this.state.password);
     this.setState({username: '', password: ''});
   },
 

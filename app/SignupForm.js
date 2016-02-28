@@ -12,6 +12,32 @@ const SignupForm = React.createClass({
     };
   },
 
+  onSignupSubmit() {
+    
+    //format data
+    var user = {
+      username: this.state.username,
+      password: this.state.password,
+    };
+
+    //send post request with data
+    request
+      .post('auth/signup')
+      .send(user)
+      .end((err, res) => {
+        if (err || !res.ok) {
+          console.log(err);
+        } else if (res.text === 'user already exists') {
+          console.log(res.text);
+        } else {
+          console.log('Success!');
+          browserHistory.push('/signin');
+        }});
+
+    //clear forms
+    this.setState({username: '', password: ''});
+  }, 
+
   render() {
     const style = {
       margin: 12,
@@ -47,32 +73,6 @@ const SignupForm = React.createClass({
         </form>
       </div>
     );
-  },
-
-  onSignupSubmit() {
-    
-    //format data
-    var user = {
-      username: this.state.username,
-      password: this.state.password,
-    };
-
-    //send post request with data
-    request
-      .post('auth/signup')
-      .send(user)
-      .end((err, res) => {
-        if (err || !res.ok) {
-          console.log(err);
-        } else if (res.text === 'user already exists') {
-          console.log(res.text);
-        } else {
-          console.log('Success!');
-          browserHistory.push('/signin');
-        }});
-
-    //clear forms
-    this.setState({username: '', password: ''});
   }
 });
 
