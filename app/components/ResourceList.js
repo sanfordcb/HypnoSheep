@@ -6,6 +6,7 @@ const ResourceList = React.createClass({
   deleteResource(id) {
     request
       .delete(`/api/resources/${id}`)
+      .set('x-access-token', window.localStorage.jwt)
       .end((err, res) => {
         if (err || !res.ok) {
           console.log(err);

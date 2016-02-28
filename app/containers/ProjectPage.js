@@ -15,6 +15,7 @@ const ProjectPage = React.createClass({
   getResources() {
     request
       .get(`/api/resources/${this.props.params.id}`)
+      .set('x-access-token', window.localStorage.jwt)
       .end((err, resp) => {
         if (!err) {
           this.setState({ data: (resp.body) });
@@ -30,6 +31,7 @@ const ProjectPage = React.createClass({
     resource.projectId = this.props.params.id;
     request
       .post('/api/resources')
+      .set('x-access-token', window.localStorage.jwt)
       .send(resource)
       .end((err, resp) => {
         if (!err) {

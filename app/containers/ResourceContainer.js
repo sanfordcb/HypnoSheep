@@ -12,6 +12,7 @@ const ResourceContainer = React.createClass({
   updateResource(data) {
     request
       .put(`/api/resources/${data._id}`)
+      .set('x-access-token', window.localStorage.jwt)
       .send(data)
       .end((err, res) => {
         if (err || !res.ok) {
