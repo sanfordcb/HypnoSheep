@@ -9,29 +9,21 @@ const SignIn = React.createClass({
     return {
       username: '',
       password: ''
-    }
+    };
   },
 
-/*  
-  componentDidMount() {
-    //checks local storage (under window) for jwt token. if token exists, sends
-    //request to server to check if token is valid. if so, routes user to
-    //projects page
-    if(localStorage.jwt){
-      browserHistory.push('/projects/' + localStorage.userId);
-          }
-      });
-    }
+  onUserChange(e) {
+    this.setState({ username: e.target.value });
   },
-  */
+
+  onPassChange(e) {
+    this.setState({ password: e.target.value });
+  },
 
   auth(username, password) {
-    //if no token is found, user must manually log in. this sends a request
-    //to our server which will check the database for the username and password.
-    //this request is only initiated after user submits their info
-    let user = {
-      username: username,
-      password: password
+    const user = {
+      username,
+      password
     };
     request
       .post('auth/signin')
@@ -42,8 +34,8 @@ const SignIn = React.createClass({
         } else if (res.text === 'user not found' || res.text === 'passwords dont match'){
           console.log(res);
         } else {
-          let userId = res.body.user._id;
-          let jwt = JSON.parse(res.text);
+          const userId = res.body.user._id;
+          const jwt = JSON.parse(res.text);
           this.loginUser(userId, jwt.token);
           return true;
         }
@@ -53,26 +45,17 @@ const SignIn = React.createClass({
   loginUser(userId, jwt) {
     localStorage.setItem('jwt', jwt);
     localStorage.setItem('userId', userId);
-    browserHistory.push('/projects/' + userId);
+    browserHistory.push(`/projects/${userId}`);
   },
- 
+
   linkToSignUp() {
     browserHistory.push('/signup/');
   },
 
-
   handleUserSubmit(e) {
     e.preventDefault();
     this.auth(this.state.username, this.state.password);
-    this.setState({username: '', password: ''});
-  },
-
-  onUserChange(e) {
-    this.setState({username: e.target.value});
-  },
-
-  onPassChange(e) {
-    this.setState({password: e.target.value});
+    this.setState({ username: '', password: '' });
   },
 
   render() {
@@ -81,19 +64,18 @@ const SignIn = React.createClass({
     };
     return (
       <div>
-        <h1>Sign in</h1>
+        <h3>Sign In</h3>
         <form className="userForm">
-          {/*<Link to="/projects"></Link>*/}
-          <TextField 
+        {/* <Link to="/projects"></Link> */}
+          <TextField
+            hintText="Username"
             type="username"
-            placeholder="username"
             value={this.state.username}
             onChange={this.onUserChange}
-          />
-          <br />
-          <TextField 
+          /><br />
+          <TextField
+            hintText="Password"
             type="password"
-            placeholder="password"
             value={this.state.password}
             onChange={this.onPassChange}
           />
@@ -106,15 +88,15 @@ const SignIn = React.createClass({
             onClick={this.handleUserSubmit}
           />
         <RaisedButton
-            label="Sign Up"
-            secondary={true}
-            style={style}
-            type="submit"
-            onClick={this.linkToSignUp}
+          label="Sign Up"
+          secondary={true}
+          style={style}
+          type="submit"
+          onClick={this.linkToSignUp}
         />
         </form>
       </div>
-    )
+    );
   }
 });
 

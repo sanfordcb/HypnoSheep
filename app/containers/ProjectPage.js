@@ -16,8 +16,8 @@ const ProjectPage = React.createClass({
     request
       .get(`/api/resources/${this.props.params.id}`)
       .end((err, resp) => {
-        if(!err) {
-          this.setState({data: (resp.body)});
+        if (!err) {
+          this.setState({ data: (resp.body) });
         } else {
           console.error(err);
         }
@@ -32,15 +32,14 @@ const ProjectPage = React.createClass({
       .post('/api/resources')
       .send(resource)
       .end((err, resp) => {
-        if(!err) {
+        if (!err) {
           console.log('Success!');
-          this.setState({data: this.state.data.concat([resp.body])});
+          this.setState({ data: this.state.data.concat([resp.body]) });
         } else {
           console.error(err);
         }
       });
-    },
-
+  },
 
   componentDidMount() {
     // Sends get request when component is first rendered, loading any resources already
@@ -53,7 +52,7 @@ const ProjectPage = React.createClass({
   render() {
     return (
       <div className="resourceBox">
-        <Paper style={{padding: 10}}>
+        <Paper style={{ padding: 10 }}>
           <h1>Resources</h1>
           <ResourceForm onResourceSubmit={this.handleResourceSubmit} />
           <ResourceList

@@ -18,22 +18,22 @@ const ProjectList = React.createClass({
     // render returns an array of Project components by mapping the project objects
     // stored in this.props.data
     if (this.props.data.length === 0) {
-      return <div>You haven't added any projects yet.</div>
+      return <div>You haven't added any projects yet.</div>;
     }
     const { data } = this.props;
 
-      const projectNodes = data.map((project) => {
-        return (
-          <Project
-            project={project}
-            key={project._id}
-            deleteProject={() => 
-              this.deleteProject(project._id)}
-          >
-            {project.name}
-          </Project>
-        );
-      });
+    const projectNodes = data.map((project) => {
+      return (
+        <Project
+          project={project}
+          key={project._id}
+          deleteProject={() =>
+            this.deleteProject(project._id)}
+        >
+          {project.name}
+        </Project>
+      );
+    });
 
     return (
       <div className="projectList">

@@ -11,7 +11,7 @@ const ProjectForm = React.createClass({
   },
   handleSubmit(e) {
     e.preventDefault();
-    let projectName = this.state.name.trim();
+    const projectName = this.state.name.trim();
     if (!projectName) {
       return;
     }
@@ -26,7 +26,7 @@ const ProjectForm = React.createClass({
           placeholder="Say something..."
           value={this.state.name}
           onChange={this.handleProjectChange}
-          style={{margin: 10}}
+          style={{ margin: 10 }}
         />
         <RaisedButton type="submit" label="Post" />
       </form>

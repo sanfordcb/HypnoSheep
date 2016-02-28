@@ -34,13 +34,15 @@ const HomeImage = React.createClass({
     return (
       <div>
         <Paper style={paperStyle} zDepth={2}>
-          <h2 style={{fontSize: 40}}>Where</h2>
-          <h2 style={{fontSize: 40}}>Was</h2>
-          <h2 style={{fontSize: 40}}>I</h2>
-          <h2 style={{fontSize: 40}}>?</h2>
+          <h2 style={{ fontSize: 40 }}>Where</h2>
+          <h2 style={{ fontSize: 40 }}>Was</h2>
+          <h2 style={{ fontSize: 40 }}>I</h2>
+          <h2 style={{ fontSize: 40 }}>?</h2>
         </Paper>
-        <img src="http://voleyko.ru/wp-content/uploads/2015/01/napisanie.jpg"
-          style={{float: 'left', width: '40%', height: 'auto'}} />
+        <img
+          src="http://voleyko.ru/wp-content/uploads/2015/01/napisanie.jpg"
+          style={{ float: 'left', width: '40%', height: 'auto' }}
+        />
       </div>
     );
   }
@@ -62,23 +64,23 @@ const GetStarted = React.createClass({
           subtitle="Start building your library today!"
           actAsExpander={true}
           showExpandableButton={true}
-          style={{lineHeight: 1.5}}
+          style={{ lineHeight: 1.5 }}
         />
         <CardText expandable={true}>
           <ul>
-            <li>Create a project</li> 
+            <li>Create a project</li>
             <li>Start searching</li>
             <li>Save the links to your Project Resources page</li>
             <li>Add comments, tag the links that helped, remove the ones that didn't</li>
           </ul>
         </CardText>
       </Card>
-      <RaisedButton onClick={this.onSignUp} label="Sign Up" style={{margin: 25}} />
-      <RaisedButton onClick={this.onSignIn} label="Sign In" style={{margin: 25}}/>
+      <RaisedButton onClick={this.onSignUp} label="Sign Up" style={{ margin: 25 }} />
+      <RaisedButton onClick={this.onSignIn} label="Sign In" style={{ margin: 25 }} />
       </div>
     );
   }
-})
+});
 
 export default LandingPage;
 

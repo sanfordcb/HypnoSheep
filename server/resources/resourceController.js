@@ -3,33 +3,33 @@ var Project = require('../projects/projectModel.js');
 
 module.exports = {
   // Get all the resources
-  getResources: function(req, res) {
+  getResources: function (req, res) {
     Resource.find()
-    .then(function(resources) {
+    .then(function (resources) {
       res.json(resources);
     });
   },
 
   // Get all resources for a specific project
-  getResourcesByProject: function(req, res) {
+  getResourcesByProject: function (req, res) {
     var projectId = req.params.projectId;
-    Project.findOne({_id: projectId})
-    .then(function(project) {
+    Project.findOne({ _id: projectId })
+    .then(function (project) {
       if (!project) {
         return res.end('project not found');
       }
-      Resource.find({project: project._id})
-      .then(function(resources) {
+      Resource.find({ project: project._id })
+      .then(function (resources) {
         res.json(resources);
-      })
+      });
     })
-    .catch(function(err) {
+    .catch(function (err) {
       console.log(err);
       res.end(err);
-    })
+    });
   },
 
-  addResource: function(req, res) {
+  addResource: function (req, res) {
     var projectId = req.body.projectId;
     if (!projectId) {
       return res.end('ProjectId required');
@@ -37,47 +37,42 @@ module.exports = {
     Resource.create({
       project: projectId,
       url: req.body.url
-    }).then(function(resource) {
+    }).then(function (resource) {
       res.json(resource);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       console.log(err);
       res.end('Error adding resource.');
-    })
+    });
   },
 
-  updateResource: function(req, res) {
+  updateResource: function (req, res) {
     var resourceId = req.params.resourceId;
     if (!resourceId) {
       return res.end('ResourceId required');
     }
     Resource.findByIdAndUpdate(resourceId, req.body)
-    .then(function(resource) {
+    .then(function (resource) {
       if (!resource) {
         return res.end('resource not found');
       }
-      res.json(resource)
+      res.json(resource);
     })
-    .catch(function(err) {
-      console.log(err)
-      res.end(err)
-    })
+    .catch(function (err) {
+      console.log(err);
+      res.end(err);
+    });
   },
 
-  deleteResource: function(req, res) {
+  deleteResource: function (req, res) {
     Resource.remove({
       _id: req.params.resourceId
     })
-    .then(function(){
+    .then(function () {
       res.end('Resource deleted.');
     })
-    .catch(function(err) {
+    .catch(function (err) {
       res.end(err);
-    })
+    });
   }
-}
-
-
-
-
-
+};

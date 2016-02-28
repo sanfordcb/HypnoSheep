@@ -14,20 +14,20 @@ var UserSchema = new mongoose.Schema({
   }
 });
 
-UserSchema.methods.comparePassword = function(candidatePassword) {
+UserSchema.methods.comparePassword = function (candidatePassword) {
   var savedPassword = this.password;
-  return new Promise(function(resolve, reject) {
-    bcrypt.compare(candidatePassword, savedPassword, function(err, isMatch){
+  return new Promise(function (resolve, reject) {
+    bcrypt.compare(candidatePassword, savedPassword, function (err, isMatch) {
       if (err) {
         reject(err);
       } else {
         resolve(isMatch);
       }
-    })
-  })
-}
+    });
+  });
+};
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function (next) {
   var user = this;
   var salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
   var hash = bcrypt.hashSync(user.password, salt);

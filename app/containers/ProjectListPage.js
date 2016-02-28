@@ -10,6 +10,26 @@ const ProjectListPage = React.createClass({
     return { projectId: 0, data: [] };
   },
 
+  componentDidMount() {
+    // initiates get request to set this.state.data to whatever is stored in the database
+    this.loadProjectsFromServer();
+    // if(localStorage.jwt){
+    //   request.post('auth/signin').send(localStorage.jwt).end((err, res) => {
+    //     if(err || !res.ok){
+    //       console.log(err);
+    //     } else if(res.text === 'not authorized' || res.text === 'Token Expired'){
+    //       console.log(res.text);
+    //       browserHistory.push('/signin');
+    //     } else {
+    //       this.loadProjectsFromServer();
+    //     }
+    //   });
+    // } else {
+    //   console.log('not authorized');
+    //   browserHistory.push('/signin');
+    // }
+  },
+
   loadProjectsFromServer() {
     request
       .get(`/api/projects/${this.props.params.id}`)
@@ -37,26 +57,6 @@ const ProjectListPage = React.createClass({
           console.error(err);
         }
       });
-    },
-
-  componentDidMount() {
-    //initiates get request to set this.state.data to whatever is stored in the database
-    this.loadProjectsFromServer();
-    // if(localStorage.jwt){
-    //   request.post('auth/signin').send(localStorage.jwt).end((err, res) => {
-    //     if(err || !res.ok){
-    //       console.log(err);
-    //     } else if(res.text === 'not authorized' || res.text === 'Token Expired'){
-    //       console.log(res.text);
-    //       browserHistory.push('/signin');
-    //     } else {
-    //       this.loadProjectsFromServer();
-    //     }
-    //   });
-    // } else {
-    //   console.log('not authorized');
-    //   browserHistory.push('/signin');
-    // }
   },
 
   render() {
@@ -65,10 +65,10 @@ const ProjectListPage = React.createClass({
     // i.e. this.props.handleProjectSubmit
     return (
       <div className="projectBox">
-        <Paper style={{padding: 10}}>
+        <Paper style={{ padding: 10 }}>
           <h1>Projects</h1>
           <ProjectForm onProjectSubmit={this.handleProjectSubmit} />
-          <ProjectList data={this.state.data} loadProjectsFromServer={this.loadProjectsFromServer}/>
+          <ProjectList data={this.state.data} loadProjectsFromServer={this.loadProjectsFromServer} />
         </Paper>
       </div>
     );
