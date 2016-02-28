@@ -1,5 +1,6 @@
 import React from 'react';
 import TextField from 'material-ui/lib/text-field';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 const ProjectForm = React.createClass({
   getInitialState() {
@@ -27,7 +28,7 @@ const ProjectForm = React.createClass({
           onChange={this.handleProjectChange}
           style={{margin: 10}}
         />
-        <input type="submit" value="Post" />
+        <RaisedButton type="submit" label="Post" />
       </form>
     );
   }

@@ -2,6 +2,7 @@ import React from 'react';
 import request from 'superagent';
 import ResourceList from '../components/ResourceList';
 import ResourceForm from '../components/ResourceForm';
+import Paper from 'material-ui/lib/paper';
 
 // Container for resources associated with the selected project
 const ProjectPage = React.createClass({
@@ -52,12 +53,14 @@ const ProjectPage = React.createClass({
   render() {
     return (
       <div className="resourceBox">
-        <h1>Resources</h1>
-        <ResourceForm onResourceSubmit={this.handleResourceSubmit} />
-        <ResourceList
-          data={this.state.data}
-          getResources={this.getResources}
-        />
+        <Paper style={{padding: 10}}>
+          <h1>Resources</h1>
+          <ResourceForm onResourceSubmit={this.handleResourceSubmit} />
+          <ResourceList
+            data={this.state.data}
+            getResources={this.getResources}
+          />
+        </Paper>
       </div>
     );
   }
