@@ -2,6 +2,7 @@ import React from 'react';
 import request from 'superagent';
 import ProjectList from '../components/ProjectList';
 import ProjectForm from '../components/ProjectForm';
+import Paper from 'material-ui/lib/paper';
 
 const ProjectListPage = React.createClass({
   getInitialState() {
@@ -64,9 +65,11 @@ const ProjectListPage = React.createClass({
     // i.e. this.props.handleProjectSubmit
     return (
       <div className="projectBox">
-        <h1>Projects</h1>
-        <ProjectForm onProjectSubmit={this.handleProjectSubmit} />
-        <ProjectList data={this.state.data} loadProjectsFromServer={this.loadProjectsFromServer}/>
+        <Paper style={{padding: 10}}>
+          <h1>Projects</h1>
+          <ProjectForm onProjectSubmit={this.handleProjectSubmit} />
+          <ProjectList data={this.state.data} loadProjectsFromServer={this.loadProjectsFromServer}/>
+        </Paper>
       </div>
     );
   }

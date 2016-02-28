@@ -25,6 +25,7 @@ const ProjectForm = React.createClass({
           placeholder="Say something..."
           value={this.state.name}
           onChange={this.handleProjectChange}
+          style={{margin: 10}}
         />
         <input type="submit" value="Post" />
       </form>
