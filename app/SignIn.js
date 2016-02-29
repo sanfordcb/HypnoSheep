@@ -29,7 +29,7 @@ const SignIn = React.createClass({
       password
     };
     request
-      .post('auth/signin')
+      .post('/auth/signin')
       .send(user)
       .end((err, res) => {
         if (err || !res.ok) {
@@ -58,7 +58,7 @@ const SignIn = React.createClass({
   },
 
   linkToSignUp() {
-    browserHistory.push('/signup/');
+    browserHistory.push('/signup');
   },
 
   handleUserSubmit(e) {
