@@ -11,7 +11,8 @@ const SignupForm = React.createClass({
       username: '',
       password: '',
       usernameError: null,
-      passwordError: null
+      passwordError: null,
+      containsError: false
     };
   },
 
@@ -20,27 +21,10 @@ const SignupForm = React.createClass({
     this.validateUsername(event);
   },
 
-  validateUsername(event) {
-    const username = event.target.value;
-    // TODO: Replace with some regex - considering length, unallowed characters, etc
-    const error = username.length < 4 ? 'Username must be at least four characters' : null;
-    this.setState({ usernameError: error });
-  },
-
   onPasswordChange(event) {
     this.setState({ password: event.target.value });
-    // this.validatePassword(event);
+    this.validatePassword(event);
   },
-
-  /*
-  TODO: Use regex to validate password instead of just length
-  TODO: Add a second password text field & passwords must match
-  validatePassword(event) {
-    const password = event.target.value;
-    let error = password.length < 6 ? 'Password must be at least six characters' : null;
-    this.setState({ passwordError: error });
-  },
-  */
 
   onSignupSubmit() {
     // format data
@@ -67,6 +51,28 @@ const SignupForm = React.createClass({
 
     // clear forms
     this.setState({ username: '', password: '' });
+  },
+
+  validateUsername(event) {
+    const username = event.target.value;
+    const alphanumeric = /^[a-z0-9]+$/i;
+    const isValid = alphanumeric.test(username);
+    // test to see if a valid username
+    const usernameError = isValid ? null : 'Username must be composed of only letters and numbers';
+    const containsError = (!!usernameError || !!this.state.passwordError);
+    // set errors
+    this.setState({ usernameError, containsError });
+  },
+
+  validatePassword(event) {
+    const password = event.target.value;
+    const minNumberChars = 6;
+    // test to see if a valid password
+    const isValid = password.length >= minNumberChars;
+    const passwordError = isValid ? null : `Password must be at least ${minNumberChars} characters`;
+    const containsError = (!!passwordError || !!this.state.usernameError);
+    // set errors
+    this.setState({ passwordError, containsError });
   },
 
   linkToSignIn() {
@@ -120,6 +126,7 @@ const SignupForm = React.createClass({
             type="submit"
             label="Sign Up"
             secondary={true}
+            disabled={this.state.containsError}
             onClick={this.onSignupSubmit}
             style={buttonStyle}
           />
