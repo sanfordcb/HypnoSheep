@@ -47,12 +47,15 @@ const ProjectPage = React.createClass({
       .set('x-access-token', window.localStorage.jwt)
       .send(resource)
       .end((err, resp) => {
-        if (!err) {
+        if (!err && resp.text !== "Invalid url") {
           console.log('Success!');
           console.log('response: ', resp);
           this.setState({ data: this.state.data.concat([resp.body]) });
         } else {
           console.error(err);
+          if(resp.text === "Invalid url"){
+            alert("invalid url!");
+          }
         }
       });
   },
