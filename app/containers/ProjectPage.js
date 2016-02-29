@@ -19,7 +19,7 @@ const ProjectPage = React.createClass({
 
   getResources() {
     request
-      .get(`/api/resources/${this.props.params.id}`)
+      .get(`/api/resources/${this.props.params.projectName}`)
       .set('x-access-token', window.localStorage.jwt)
       .end((err, resp) => {
         if (!err) {
@@ -41,7 +41,7 @@ const ProjectPage = React.createClass({
   // When user adds a new resource, a POST request is submitted, and
   // the state is updated to add the new resource to the list
   handleResourceSubmit(resource) {
-    resource.projectId = this.props.params.id;
+    resource.projectName = this.props.params.projectName;
     request
       .post('/api/resources')
       .set('x-access-token', window.localStorage.jwt)
@@ -49,6 +49,7 @@ const ProjectPage = React.createClass({
       .end((err, resp) => {
         if (!err) {
           console.log('Success!');
+          console.log('response: ', resp);
           this.setState({ data: this.state.data.concat([resp.body]) });
         } else {
           console.error(err);

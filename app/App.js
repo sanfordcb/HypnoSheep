@@ -1,26 +1,18 @@
 import React from 'react';
 import Header from './Header';
+import { browserHistory } from 'react-router';
 
 const App = React.createClass({
-  render() {
-    const path = this.props.location.pathname;
-    if (path === '/' || path === '/signin' || path === '/signup') {
-      return (
-        <div>
-          {this.props.children}
-        </div>
-      );
-    } else if (!this.props.location.query.user) {
-      return (
-        <div>
-          <Header user={this.props.params.id} />
-          {this.props.children}
-        </div>
-      );
+  componentDidMount() {
+    if (!window.localStorage.jwt) {
+      browserHistory.push('/signin');
     }
+  },
+
+  render() {
     return (
       <div>
-        <Header user={this.props.location.query.user} />
+        <Header params={this.props.params} />
         {this.props.children}
       </div>
     );

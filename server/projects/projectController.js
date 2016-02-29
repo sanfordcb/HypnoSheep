@@ -13,12 +13,30 @@ module.exports = {
     });
   },
 
-  getProjectsByUser: function (req, res) {
+  getProjectsByUserId: function (req, res) {
     var userId = req.params.userId;
     User.findOne({ _id: userId })
     .then(function (user) {
       if (!user) {
-        return res.end('You haven\'t added any projects yet.');
+        return res.end('User does not exist');
+      }
+      Project.find({ user: user._id })
+      .then(function (projects) {
+        res.json(projects);
+      });
+    })
+    .catch(function (err) {
+      console.log(err);
+      return res.end('Error getting projects');
+    });
+  },
+
+  getProjectsByUserName: function (req, res) {
+    var userName = req.params.userName;
+    User.findOne({ username: userName })
+    .then(function (user) {
+      if (!user) {
+        return res.end('User does not exist');
       }
       Project.find({ user: user._id })
       .then(function (projects) {
@@ -32,20 +50,30 @@ module.exports = {
   },
 
   addProject: function (req, res) {
-    var userId = req.body.userId;
-    if (!userId) {
-      return res.send('UserId required');
+    var userName = req.body.userName;
+    if (!userName) {
+      return res.send('userName required');
     }
-    Project.create({
-      user: userId,
-      name: req.body.name
-    })
-    .then(function (project) {
-      res.json(project);
+    User.findOne({ username: userName })
+    .then(function(user) {
+      if (!user) {
+        return res.end('User does not exist');
+      }
+      Project.create({
+        user: user._id,
+        name: req.body.name
+      })
+      .then(function (project) {
+        res.json(project);
+      })
+      .catch(function (err) {
+        console.log(err);
+        return res.end('Error adding project');
+      });
     })
     .catch(function (err) {
       console.log(err);
-      return res.end('Error adding project');
+      return res.end('Error getting projects');
     });
   },
 

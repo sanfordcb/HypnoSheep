@@ -5,7 +5,7 @@ import Project from './Project';
 const ProjectList = React.createClass({
   deleteProject(id) {
     request
-      .delete(`api/projects/${id}`)
+      .delete(`/api/projects/${id}`)
       .set('x-access-token', window.localStorage.jwt)
       .end((err, res) => {
         if (err || !res.ok) {
@@ -23,11 +23,11 @@ const ProjectList = React.createClass({
     }
     const { data } = this.props;
 
-    const projectNodes = data.map((project) => {
+    const projectNodes = data.map((project, i) => {
       return (
         <Project
           project={project}
-          key={project._id}
+          key={i}
           deleteProject={() =>
             this.deleteProject(project._id)}
         >

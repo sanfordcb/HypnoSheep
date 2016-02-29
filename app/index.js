@@ -9,6 +9,7 @@ import LandingPage from './LandingPage';
 import App from './App';
 import ProjectListPage from './containers/ProjectListPage';
 import ProjectPage from './containers/ProjectPage';
+import Site from './containers/Site';
 import SignupForm from './SignupForm';
 import SignIn from './SignIn';
 
@@ -22,13 +23,14 @@ injectTapEventPlugin();
 
 const routes = (
   <Router history={browserHistory}>
-    <Route path="/" component={App}>
+    <Route path="/" component={Site}>
       <IndexRoute component={LandingPage} />
-      <Route path="projects/:id" component={ProjectListPage} />
-      <Route path="resources/:id" component={ProjectPage} />
       <Route path="signup" component={SignupForm} />
       <Route path="signin" component={SignIn} />
-    }
+      <Route path="app" component={App}>
+        <Route path="projects/:userName" component={ProjectListPage} />
+        <Route path="projects/:userName/:projectName" component={ProjectPage} />
+      </Route>
     </Route>
   </Router>
 );
