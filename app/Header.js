@@ -1,38 +1,41 @@
 import React from 'react';
-import { Link } from 'react-router';
+import ReactDOM from 'react-dom';
+import { Router, Route, Link, browserHistory } from 'react-router';
+import AppBar from 'material-ui/lib/app-bar';
+import LeftNav from 'material-ui/lib/left-nav';
+import MenuItem from 'material-ui/lib/menus/menu-item';
 
-// Header renders Home and Sign Out links
-// Space rendered between Home and SignOut until CSS applied
 const Header = React.createClass({
-  render() {
-    return (
-      <nav className="app-header">
-        <Home userName={this.props.params.userName} /> {'  '}
-        <SignOut />
-      </nav>
-    );
-  }
-});
-
-// Home renders link to return to projects page
-const Home = React.createClass({
-  render() {
-    return (
-      <Link to={`/app/projects/${this.props.userName}`}>Home</Link>
-      );
-  }
-});
-
-// SignOut links to '/' until sign in page implemented
-// handleSignOut will be updated to remove token
-const SignOut = React.createClass({
+  getInitialState() {
+    return {open: false};
+  },
+  _toggle(e) {
+    e.preventDefault();
+    this.refs.LeftNav.toggle();
+  },
+  handleMyProjects() {
+    browserHistory.push(`/app/projects/${localStorage.userId}`);
+  },
   handleSignOut() {
     console.log('You are now signed out');
     localStorage.clear();
+    browserHistory.push('/');
   },
   render() {
     return (
-      <Link to="/" onClick={this.handleSignOut}>Sign Out</Link>
+      <div>
+        <AppBar onLeftIconButtonTouchTap={this._toggle} title="Where Was I?" />
+        <LeftNav
+          ref="LeftNav"
+          docked={false}
+          handleHome={this.handleMyProjects}
+          handleSignOut={this.handleSignOut}
+          open={false}
+        >
+          <MenuItem onTouchTap={this.handleMyProjects}>My Projects</MenuItem>
+          <MenuItem onTouchTap={this.handleSignOut}>Sign Out</MenuItem>
+        </LeftNav>
+      </div>
     );
   }
 });
