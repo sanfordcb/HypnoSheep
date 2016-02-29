@@ -1,13 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import ReactRouter from 'react-router';
+import { browserHistory } from 'react-router';
+
 import Paper from 'material-ui/lib/paper';
 import Card from 'material-ui/lib/card/card';
-import CardActions from 'material-ui/lib/card/card-actions';
 import CardHeader from 'material-ui/lib/card/card-header';
 import RaisedButton from 'material-ui/lib/raised-button';
 import CardText from 'material-ui/lib/card/card-text';
-import { browserHistory } from 'react-router';
 
 const LandingPage = React.createClass({
   render() {
@@ -83,4 +81,3 @@ const GetStarted = React.createClass({
 });
 
 export default LandingPage;
-
