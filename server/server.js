@@ -7,8 +7,6 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
   // Webpack dev deps
   var webpack = require('webpack');
-  var webpackMiddleware = require('webpack-dev-middleware');
-  var webpackHotMiddleware = require('webpack-hot-middleware');
   var config = require('../webpack.config.js');
 
 // Project deps
@@ -33,6 +31,8 @@ app.use('/api', jwtAuth, routes);
 app.use('/auth', userRoutes);
 
 if (isDeveloping) {
+  var webpackMiddleware = require('webpack-dev-middleware');
+  var webpackHotMiddleware = require('webpack-hot-middleware');
   var compiler = webpack(config);
   var middleware = webpackMiddleware(compiler, {
     publicPath: config.output.publicPath,
