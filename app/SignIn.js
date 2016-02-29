@@ -9,7 +9,9 @@ const SignIn = React.createClass({
   getInitialState() {
     return {
       username: '',
-      password: ''
+      password: '',
+      usernameError: null,
+      passwordError: null
     };
   },
 
@@ -32,14 +34,19 @@ const SignIn = React.createClass({
       .end((err, res) => {
         if (err || !res.ok) {
           console.log(err);
-        } else if (res.text === 'user not found' || res.text === 'passwords dont match'){
-          console.log(res);
-        } else {
-          const userId = res.body.user._id;
-          const jwt = JSON.parse(res.text);
-          this.loginUser(userId, jwt.token);
-          return true;
+          return;
         }
+        if (res.text === 'Incorrect username.') {
+          this.setState({ usernameError: res.text });
+          return;
+        }
+        if (res.text === 'Incorrect password.') {
+          this.setState({ passwordError: res.text });
+          return;
+        }
+        const userId = res.body.user._id;
+        const jwt = JSON.parse(res.text);
+        this.loginUser(userId, jwt.token);
       });
   },
 
@@ -83,12 +90,14 @@ const SignIn = React.createClass({
             hintText="Username"
             type="username"
             value={this.state.username}
+            errorText={this.state.usernameError}
             onChange={this.onUserChange}
           /><br />
           <TextField
             hintText="Password"
             type="password"
             value={this.state.password}
+            errorText={this.state.passwordError}
             onChange={this.onPassChange}
           />
           <br />

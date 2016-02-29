@@ -11,13 +11,13 @@ module.exports = {
     .then(function (user) {
       // if the user exists...
       if (!user) {
-        return res.end('user not found');
+        return res.end('Incorrect username.');
       }
       // ...check their password...
       return user.comparePassword(password)
       .then(function (isMatch) {
         if (!isMatch) {
-          return res.status(401).end('passwords dont match');
+          return res.end('Incorrect password.');
         }
         // if the password is correct, create a jwt Token for the user
         var expires = moment().add(2, 'days').valueOf();
@@ -43,7 +43,7 @@ module.exports = {
     User.findOne({ username: req.body.username })
     .then(function (user) {
       if (user) {
-        return res.end('user already exists');
+        return res.end('Username already exists.');
       } else {
         User.create({
           username: req.body.username,
