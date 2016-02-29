@@ -44,16 +44,17 @@ const SignIn = React.createClass({
           this.setState({ passwordError: res.text });
           return;
         }
-        const userId = res.body.user._id;
+        const userName = res.body.user.username;
         const jwt = JSON.parse(res.text);
-        this.loginUser(userId, jwt.token);
+        this.loginUser(userName, jwt.token);
+        return true;
       });
   },
 
   loginUser(userId, jwt) {
     localStorage.setItem('jwt', jwt);
     localStorage.setItem('userId', userId);
-    browserHistory.push(`/projects/${userId}`);
+    browserHistory.push(`/app/projects/${userId}`);
   },
 
   linkToSignUp() {

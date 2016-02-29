@@ -11,7 +11,7 @@ module.exports = {
   },
 
   // Get all resources for a specific project
-  getResourcesByProject: function (req, res) {
+  getResourcesByProjectId: function (req, res) {
     var projectId = req.params.projectId;
     Project.findOne({ _id: projectId })
     .then(function (project) {
@@ -29,20 +29,49 @@ module.exports = {
     });
   },
 
-  addResource: function (req, res) {
-    var projectId = req.body.projectId;
-    if (!projectId) {
-      return res.end('ProjectId required');
-    }
-    Resource.create({
-      project: projectId,
-      url: req.body.url
-    }).then(function (resource) {
-      res.json(resource);
+  getResourcesByProjectName: function (req, res) {
+    var projectName = req.params.projectName;
+    Project.findOne({ name: projectName })
+    .then(function (project) {
+      if (!project) {
+        return res.end('project not found');
+      }
+      Resource.find({ project: project._id })
+      .then(function (resources) {
+        res.json(resources);
+      });
     })
     .catch(function (err) {
       console.log(err);
-      res.end('Error adding resource.');
+      res.end(err);
+    });
+  },
+
+  addResource: function (req, res) {
+    var projectName = req.body.projectName;
+    if (!projectName) {
+      return res.end('projectName required');
+    }
+    Project.findOne({ name: projectName })
+    .then(function (project) {
+      if (!project) {
+        return res.end('project not found');
+      }
+      Resource.create({
+        project: project._id,
+        url: req.body.url,
+        description: req.body.description
+      }).then(function (resource) {
+        res.json(resource);
+      })
+      .catch(function (err) {
+        console.log(err);
+        res.end('Error adding resource.');
+      });
+    })
+    .catch(function (err) {
+      console.log(err);
+      res.end(err);
     });
   },
 

@@ -19,6 +19,7 @@ const ProjectForm = React.createClass({
     this.setState({ name: '' });
   },
   render() {
+    console.log(this.props);
     return (
       <form className="commentForm" onSubmit={this.handleSubmit}>
         <TextField

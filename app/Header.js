@@ -7,7 +7,7 @@ const Header = React.createClass({
   render() {
     return (
       <nav className="app-header">
-        <Home user={this.props.user} /> {'  '}
+        <Home userName={this.props.params.userName} /> {'  '}
         <SignOut />
       </nav>
     );
@@ -17,8 +17,9 @@ const Header = React.createClass({
 // Home renders link to return to projects page
 const Home = React.createClass({
   render() {
+    console.log(this.props);
     return (
-      <Link to={`/projects/${this.props.user}`}>Home</Link>
+      <Link to={`/app/projects/${this.props.userName}`}>Home</Link>
       );
   }
 });

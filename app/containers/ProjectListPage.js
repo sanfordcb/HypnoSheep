@@ -32,11 +32,16 @@ const ProjectListPage = React.createClass({
 
   loadProjectsFromServer() {
     request
-      .get(`/api/projects/${this.props.params.id}`)
+      .get(`/api/projects/${this.props.params.userName}`)
       .set('x-access-token', window.localStorage.jwt)
       .end((err, resp) => {
         if (!err) {
-          this.setState({ data: (resp.body) });
+          this.setState({
+            data: resp.body.map(project => {
+              project.userName = this.props.params.userName;
+              return project;
+            })
+          });
         } else {
           console.error(err);
         }
@@ -47,13 +52,15 @@ const ProjectListPage = React.createClass({
   // is added to the list after confirmation from the server that it
   // was successfully created.
   handleProjectSubmit(project) {
-    project.userId = this.props.params.id;
+    project.userName = this.props.params.userName;
     request
       .post('/api/projects')
       .set('x-access-token', window.localStorage.jwt)
       .send(project)
       .end((err, resp) => {
         if (!err) {
+          console.log('response: ', resp);
+          resp.body.userName = this.props.params.userName;
           this.setState({ data: this.state.data.concat(resp.body) });
         } else {
           console.error(err);

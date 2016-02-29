@@ -7,7 +7,6 @@ const Resource = React.createClass({
     this.props.updateResource(
       Object.assign({}, this.props.resource, data)
     );
-    this.toggleEdit();
   },
 
   open(url) {
