@@ -1,35 +1,27 @@
 import React from 'react';
 import request from 'superagent';
-import ProjectList from '../components/ProjectList';
-import ProjectForm from '../components/ProjectForm';
+
 import Paper from 'material-ui/lib/paper';
+import IconButton from 'material-ui/lib/icon-button';
+import AddIcon from 'material-ui/lib/svg-icons/content/add-box';
+
+import ProjectList from '../components/ProjectList';
+import ProjectFormModal from '../components/ProjectFormModal';
 
 const ProjectListPage = React.createClass({
   getInitialState() {
     // sets this.state.data to blank
-    return { projectId: 0, data: [] };
+    return {
+      data: [],
+      formModal: false
+    };
   },
 
   componentDidMount() {
-    // initiates get request to set this.state.data to whatever is stored in the database
     this.loadProjectsFromServer();
-    // if(localStorage.jwt){
-    //   request.post('auth/signin').send(localStorage.jwt).end((err, res) => {
-    //     if(err || !res.ok){
-    //       console.log(err);
-    //     } else if(res.text === 'not authorized' || res.text === 'Token Expired'){
-    //       console.log(res.text);
-    //       browserHistory.push('/signin');
-    //     } else {
-    //       this.loadProjectsFromServer();
-    //     }
-    //   });
-    // } else {
-    //   console.log('not authorized');
-    //   browserHistory.push('/signin');
-    // }
   },
 
+  // initiates get request to set this.state.data to whatever is stored in the database
   loadProjectsFromServer() {
     request
       .get(`/api/projects/${this.props.params.userName}`)
@@ -68,17 +60,39 @@ const ProjectListPage = React.createClass({
       });
   },
 
+  handleOpen() {
+    this.setState({ formModal: true });
+  },
+
+  handleClose() {
+    this.setState({ formModal: false });
+  },
+
   render() {
     // by having onCommentSubmit={this.handleProjectSubmit} in the ProjectForm tag, we are able to pass
     // ProjectBox's handleProjectSubmit method to ProjectForm on the this.props object. ProjectBox
     // i.e. this.props.handleProjectSubmit
     return (
       <div className="projectBox">
+
         <Paper style={{ padding: 10 }}>
+
           <h1>Projects</h1>
-          <ProjectForm onProjectSubmit={this.handleProjectSubmit} />
+
+          <IconButton onClick={this.handleOpen}>
+            <AddIcon />
+          </IconButton>
+
           <ProjectList data={this.state.data} loadProjectsFromServer={this.loadProjectsFromServer} />
+
         </Paper>
+
+        <ProjectFormModal
+          open={this.state.formModal}
+          closeModal={this.handleClose}
+          handleProjectSubmit={this.handleProjectSubmit}
+        />
+
       </div>
     );
   }
