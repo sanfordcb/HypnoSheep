@@ -17,7 +17,6 @@ const Header = React.createClass({
 // Home renders link to return to projects page
 const Home = React.createClass({
   render() {
-    console.log(this.props);
     return (
       <Link to={`/app/projects/${this.props.userName}`}>Home</Link>
       );

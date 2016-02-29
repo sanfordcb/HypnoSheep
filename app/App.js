@@ -10,7 +10,6 @@ const App = React.createClass({
   },
 
   render() {
-    console.log('params in app: ', this.props.params);
     return (
       <div>
         <Header params={this.props.params} />
