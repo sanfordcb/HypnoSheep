@@ -30,7 +30,8 @@ const Header = React.createClass({
           docked={false}
           handleHome={this.handleMyProjects}
           handleSignOut={this.handleSignOut}
-          open={false}
+          open={this.state.open}
+          onRequestChange={open => this.setState({open})}
         >
           <MenuItem onTouchTap={this.handleMyProjects}>My Projects</MenuItem>
           <MenuItem onTouchTap={this.handleSignOut}>Sign Out</MenuItem>
