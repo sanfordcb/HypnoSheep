@@ -10,8 +10,6 @@ const Resource = React.createClass({
   },
 
   open(url) {
-    // TODO: this is not quite working as intended
-    // window.open(url);
     console.log('opening url...');
     window.open(url);
   },
@@ -29,7 +27,7 @@ const Resource = React.createClass({
         <EditableList resource={resource} update={this.save} remove={deleteResource}>
 
           <h3 
-            style={{ display: 'inline-block', color: 'blue', 'text-decoration': 'underline', cursor: 'pointer', cursor: 'hand' }} 
+            style={{ display: 'inline-block', color: 'blue', 'text-decoration': 'underline', cursor: 'pointer'}} 
             content={resource.url} 
             editKey={'url'} 
             onClick={() => this.open(resource.url)}>
