@@ -24,11 +24,15 @@ const Resource = React.createClass({
     };
 
     return (
-      <Paper style ={style} zDepth={3} onClick={() => this.open(resource.url)}>
+      <Paper style ={style} zDepth={3}>
 
         <EditableList resource={resource} update={this.save} remove={deleteResource}>
 
-          <h3 style={{ display: 'inline-block' }} content={resource.url} editKey={'url'}>
+          <h3 
+            style={{ display: 'inline-block', color: 'blue', 'text-decoration': 'underline', cursor: 'pointer', cursor: 'hand' }} 
+            content={resource.url} 
+            editKey={'url'} 
+            onClick={() => this.open(resource.url)}>
             {resource.url}
           </h3>
 
