@@ -1,16 +1,13 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import Paper from 'material-ui/lib/paper';
 import FlatButton from 'material-ui/lib/flat-button';
 
 export default ({ project, deleteProject }) => (
   <Paper style={{ margin: 10, padding: 10 }}>
-    <a
-      href={`/app/projects/${project.userName}/${project.name}`}
-      style={{ margin: 10, fontSize: 20 }}
-    >
+    <Link to={`/app/projects/${project.userName}/${project.name}`}>
       {project.name}
-    </a>
+    </Link>
     <FlatButton
       onClick={deleteProject}
       label="Remove Project"
