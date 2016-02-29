@@ -36,7 +36,7 @@ const SignupForm = React.createClass({
 
     // send post request with data
     request
-      .post('auth/signup')
+      .post('/auth/signup')
       .send(user)
       .end((err, res) => {
         if (err || !res.ok) {
