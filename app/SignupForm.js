@@ -76,7 +76,7 @@ const SignupForm = React.createClass({
   },
 
   linkToSignIn() {
-    browserHistory.push('/signin/');
+    browserHistory.push('/signin');
   },
 
   render() {
