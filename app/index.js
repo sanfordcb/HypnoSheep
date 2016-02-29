@@ -5,13 +5,13 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
 // Project
-import LandingPage from './LandingPage';
-import App from './App';
+import Site from './containers/Site';
+import LandingPage from './containers/LandingPage';
+import SignupForm from './containers/SignupForm';
+import SignIn from './containers/SignIn';
+import App from './containers/App';
 import ProjectListPage from './containers/ProjectListPage';
 import ProjectPage from './containers/ProjectPage';
-import Site from './containers/Site';
-import SignupForm from './SignupForm';
-import SignIn from './SignIn';
 
 
 // Needed for onTouchTap
