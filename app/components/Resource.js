@@ -29,7 +29,7 @@ const Resource = React.createClass({
         <EditableList resource={resource} update={this.save} remove={deleteResource}>
 
           <h3 
-            style={{ display: 'inline-block', color: 'blue', 'text-decoration': 'underline', cursor: 'pointer', cursor: 'hand' }} 
+            style={{ display: 'inline-block', color: 'blue', 'text-decoration': 'underline', cursor: 'pointer'}} 
             content={resource.url} 
             editKey={'url'} 
             onClick={() => this.open(resource.url)}>
