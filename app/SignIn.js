@@ -1,17 +1,9 @@
 import React from 'react';
 import request from 'superagent';
 import { browserHistory } from 'react-router';
-
 import RaisedButton from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
 import Paper from 'material-ui/lib/paper';
-import WebFont from 'webfontloader';
-
-WebFont.load({
-  google: {
-    families: ['Roboto:400,700:latin']
-  }
-});
 
 const SignIn = React.createClass({
   getInitialState() {
@@ -80,10 +72,7 @@ const SignIn = React.createClass({
       margin: 12,
     };
     const backgroundStyle = {
-      'textAlign': 'center',
-    };
-    const textStyle = {
-      fontFamily: 'Roboto'
+      "text-align": "center",
     };
     const paperStyle = {
       height: '100%',
@@ -96,7 +85,7 @@ const SignIn = React.createClass({
     };
     return (
       <div style={backgroundStyle}>
-        <h1 style={textStyle}>Sign In</h1>
+        <h3>Sign In</h3>
         <form className="userForm">
           <TextField
             hintText="Username"
@@ -129,10 +118,10 @@ const SignIn = React.createClass({
         />
         </form>
         <Paper style={paperStyle} zDepth={2}>
-          <h2 style={{ fontSize: '3vw' }}>Where</h2>
-          <h2 style={{ fontSize: '3vw' }}>Was</h2>
-          <h2 style={{ fontSize: '3vw' }}>I</h2>
-          <h2 style={{ fontSize: '3vw' }}>?</h2>
+          <h2 style={{ fontSize: 40 }}>Where</h2>
+          <h2 style={{ fontSize: 40 }}>Was</h2>
+          <h2 style={{ fontSize: 40 }}>I</h2>
+          <h2 style={{ fontSize: 40 }}>?</h2>
         </Paper>
         </div>
     );

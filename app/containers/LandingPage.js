@@ -32,10 +32,10 @@ const HomeImage = React.createClass({
     return (
       <div>
         <Paper style={paperStyle} zDepth={2}>
-          <h2 style={{ fontSize: 40 }}>Where</h2>
-          <h2 style={{ fontSize: 40 }}>Was</h2>
-          <h2 style={{ fontSize: 40 }}>I</h2>
-          <h2 style={{ fontSize: 40 }}>?</h2>
+          <h2 style={{ fontSize: '3vw' }}>Where</h2>
+          <h2 style={{ fontSize: '3vw' }}>Was</h2>
+          <h2 style={{ fontSize: '3vw' }}>I</h2>
+          <h2 style={{ fontSize: '3vw' }}>?</h2>
         </Paper>
         <img
           src="http://voleyko.ru/wp-content/uploads/2015/01/napisanie.jpg"
@@ -62,7 +62,7 @@ const GetStarted = React.createClass({
           subtitle="Start building your library today!"
           actAsExpander={true}
           showExpandableButton={true}
-          style={{ lineHeight: 1.5 }}
+          style={{ lineHeight: '1.5vw' }}
         />
         <CardText expandable={true}>
           <ul>
