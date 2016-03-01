@@ -129,10 +129,10 @@ const SignIn = React.createClass({
         />
         </form>
         <Paper style={paperStyle} zDepth={2}>
-          <h2 style={{ fontSize: '3vw' }}>Where</h2>
-          <h2 style={{ fontSize: '3vw' }}>Was</h2>
-          <h2 style={{ fontSize: '3vw' }}>I</h2>
-          <h2 style={{ fontSize: '3vw' }}>?</h2>
+          <h2 style={{ fontSize: 40 }}>Where</h2>
+          <h2 style={{ fontSize: 40 }}>Was</h2>
+          <h2 style={{ fontSize: 40 }}>I</h2>
+          <h2 style={{ fontSize: 40 }}>?</h2>
         </Paper>
         </div>
     );
