@@ -36,11 +36,24 @@ const ProjectList = React.createClass({
       );
     });
 
-    return (
-      <div className="projectList">
-        {projectNodes}
-      </div>
-    );
+    if(this.props.currentSearch) {
+      const results = projectNodes.filter((project) => {
+        if(project.props.project.name === this.props.currentSearch) {
+          return project;
+        }
+      });
+      return (
+        <div className="projectList">
+          {results}
+        </div>
+      );
+    } else {
+      return (
+        <div className="projectList">
+          {projectNodes}
+        </div>
+      );
+    }
   }
 });
 

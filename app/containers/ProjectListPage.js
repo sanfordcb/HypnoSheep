@@ -7,13 +7,15 @@ import AddIcon from 'material-ui/lib/svg-icons/content/add-box';
 
 import ProjectList from '../components/ProjectList';
 import ProjectFormModal from '../components/ProjectFormModal';
+import ProjectSearch from '../components/ProjectSearch';
 
 const ProjectListPage = React.createClass({
   getInitialState() {
     // sets this.state.data to blank
     return {
       data: [],
-      formModal: false
+      formModal: false,
+      currentSearch: ''
     };
   },
 
@@ -68,6 +70,10 @@ const ProjectListPage = React.createClass({
     this.setState({ formModal: false });
   },
 
+  handleSearchReq(term) {
+    this.setState({currentSearch: term});
+  },
+
   render() {
     // by having onCommentSubmit={this.handleProjectSubmit} in the ProjectForm tag, we are able to pass
     // ProjectBox's handleProjectSubmit method to ProjectForm on the this.props object. ProjectBox
@@ -83,7 +89,13 @@ const ProjectListPage = React.createClass({
             <AddIcon />
           </IconButton>
 
-          <ProjectList data={this.state.data} loadProjectsFromServer={this.loadProjectsFromServer} />
+          <ProjectSearch handleSearchReq={this.handleSearchReq}/>
+          
+          <ProjectList
+            data={this.state.data}
+            loadProjectsFromServer={this.loadProjectsFromServer}
+            currentSearch={this.state.currentSearch}
+          />
 
         </Paper>
 
